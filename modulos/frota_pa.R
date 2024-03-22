@@ -9,7 +9,7 @@ frotapa_ui <- function(id) {
                 2,
                 selectInput(
                   inputId = NS(id, "ri"),
-                  label = "Localidade",
+                  label = "LOCALIDADE",
                   choices = unique(frota2[["ri"]]),
                   width = "200px"
                 )
@@ -18,7 +18,7 @@ frotapa_ui <- function(id) {
                 2,
                 selectInput(
                   inputId = NS(id, "cat"),
-                  label = "Tipo de Frota/Total",
+                  label = "TIPO DE FROTA/TOTAL",
                   choices = unique(frota2[["categoria"]]),
                   width = "200px"
                 )
@@ -27,7 +27,7 @@ frotapa_ui <- function(id) {
                 2,
                 selectInput(
                   inputId = NS(id, "ano"),
-                  label = "Ano",
+                  label = "ANO",
                   choices = sort(unique(frota2[["ano"]]), decreasing = T),
                   width = "100px"
                 )
@@ -38,8 +38,8 @@ frotapa_ui <- function(id) {
               box(
                 title = textOutput(NS(id, "txtmap")),
                 status = "primary",
-                collapsed = F,
-                headerBorder = T,
+                collapsed = FALSE,
+                headerBorder = TRUE,
                 width = 12,
                 withSpinner(
                   leafletOutput(NS(id, "map"), height = "600px"),
@@ -52,8 +52,8 @@ frotapa_ui <- function(id) {
                     div(
                       style = "display: flex; justify-content: space-between;",
                       div(
-                        tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "Detran-PA"),
-                        tags$h6(tags$b("Elaboração:"), "Detran-PA")
+                        tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/Detran-PA"),
+                        tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/Detran-PA")
                       ),
                       div(
                         style = "display: flex; justify-content: center; align-items: center;"
@@ -65,8 +65,8 @@ frotapa_ui <- function(id) {
               box(
                 title = textOutput(NS(id, "txttab")),
                 status = "primary",
-                collapsed = F,
-                headerBorder = T,
+                collapsed = FALSE,
+                headerBorder = TRUE,
                 width = 12,
                 withSpinner(
                   reactableOutput(NS(id, "tab"),height = "600px"),
@@ -79,8 +79,8 @@ frotapa_ui <- function(id) {
                     div(
                       style = "display: flex; justify-content: space-between;",
                       div(
-                        tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "Detran-PA"),
-                        tags$h6(tags$b("Elaboração:"), "Detran-PA")
+                        tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAN/DTI/Detran-PA"),
+                        tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/Detran-PA")
                       ),
                       div(
                         style = "display: flex; justify-content: center; align-items: center;",
@@ -95,8 +95,8 @@ frotapa_ui <- function(id) {
       box(
         title = textOutput(NS(id, "txtgraf")),
         status = "primary",
-        collapsed = F,
-        headerBorder = T,
+        collapsed = FALSE,
+        headerBorder = TRUE,
         width = 12,
         withSpinner(
           echarts4rOutput(NS(id, "graf")),
@@ -109,8 +109,8 @@ frotapa_ui <- function(id) {
             div(
               style = "display: flex; justify-content: space-between;",
               div(
-                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "Detran-PA"),
-                tags$h6(tags$b("Elaboração:"), "Detran-PA")
+                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/Detran-PA"),
+                tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/Detran-PA")
               ),
               div(
                 style = "display: flex; justify-content: center; align-items: center;",
@@ -175,7 +175,7 @@ frotapa_Server <- function(id) {
 
       pal <-
         colorBin(
-          c("#FECCFE", "#f2a1f1", "#e676e4", "#d844d5", "#c800c8"),
+          c("#B6EDF0", "#74B4E8", "#1F83E0", "#1D44B8", "#090991"),
           domain = x$valor,
           bins = bins
         )
@@ -197,6 +197,8 @@ frotapa_Server <- function(id) {
                 leafletOptions(minZoom = 0,
                                maxZoom = 15)) %>%
         addTiles() %>%
+        addProviderTiles(providers$Esri.NatGeoWorldMap)%>%
+        #addProviderTiles(providers$Esri.WorldStreetMap)%>%
         addPolygons(
           weight = 2,
           opacity = 1,
@@ -241,14 +243,14 @@ frotapa_Server <- function(id) {
     texto2 <- reactive({
       if (input$ri == "Pará") {
         paste0(
-          "Quantidade de Veículos Total, Licenciado e Não licenciado Município ",
+          "Quantidade de Veículos: Licenciado e Não licenciado Município ",
           input$ri,
           " - ",
           input$ano
         )
       } else{
         paste0(
-          "Quantidade de Veículos Total, Licenciado e Não licenciado Município, Região de Integração ",
+          "Quantidade de Veículos: Licenciado e Não licenciado Município, Região de Integração ",
           input$ri,
           " - ",
           input$ano
@@ -322,9 +324,9 @@ frotapa_Server <- function(id) {
         columns = list(
           ri = colDef(name = "Região de Integração"),
           municipio = colDef(name = "Municípios", sticky = "left"),
-          Frota = colDef(name = "Frota", format = colFormat(separators = T)),
-          Licenciados = colDef(name = "Licenciados", format = colFormat(separators = T)),
-          `Não Licenciados` = colDef(name = "Não Licenciados", format = colFormat(separators = T))
+          Frota = colDef(name = "Frota", format = colFormat(separators = TRUE)),
+          Licenciados = colDef(name = "Licenciados", format = colFormat(separators = TRUE)),
+          `Não Licenciados` = colDef(name = "Não Licenciados", format = colFormat(separators = TRUE))
         ),
         defaultColDef = colDef(
           footerStyle = list(fontWeight = "bold"),
@@ -344,7 +346,7 @@ frotapa_Server <- function(id) {
     #Gráfico - Total da Frota de Veículos Subdivididos em Licenciados e Não Licenciados----
     texto3 <- reactive({
       paste0(
-        "Total da Frota de Veículos Subdivididos em Licenciados e Não Licenciados, Pará - ",
+        "Total da Frota de Veículos: Licenciados e Não Licenciados, Pará - ",
         min(frota2$ano),
         " a ",
         max(frota2$ano)
@@ -376,25 +378,25 @@ frotapa_Server <- function(id) {
           name = "Licenciados",
           legend = T,
           symbol = "roundRect",
-          symbolSize = 6,
-          legendHoverLink = T,
+          symbolSize = 8,
+          legendHoverLink = TRUE,
         ) %>%
         e_line(
           serie = `Não Licenciados`,
           name = "Não Licenciados",
           legend = T,
           symbol = "roundRect",
-          symbolSize = 6,
+          symbolSize = 8,
           legendHoverLink = T,
           itemStyle = list(barBorderRadius = 5)
         ) %>%
         e_line(
           serie = Frota,
           name = "Frota",
-          legend = T,
+          legend = TRUE,
           symbol = "roundRect",
-          symbolSize = 6,
-          legendHoverLink = T,
+          symbolSize = 8,
+          legendHoverLink = TRUE,
           itemStyle = list(barBorderRadius = 5)
         ) %>%
         e_tooltip(
@@ -403,15 +405,15 @@ frotapa_Server <- function(id) {
           axisPointer = list(type = "shadow")
         ) %>%
         e_x_axis(
-          axisLabel = list(show = T, fontSize = 11),
+          axisLabel = list(show = TRUE, fontSize = 12),
           name = "Ano",
-          splitLine = list(show = T),
+          splitLine = list(show = TRUE),
           nameTextStyle = list(fontWeight = "bold", fontSize = 14)
         ) %>%
         e_y_axis(
           name = "Quantidade",
           nameTextStyle = list(fontWeight = "bold", fontSize = 14),
-          scale = T,
+          scale = TRUE,
           axisLabel = list(
             formatter = htmlwidgets::JS(
               "
@@ -423,8 +425,13 @@ frotapa_Server <- function(id) {
           )
         ) %>%
         e_locale("pt-Br") %>%
-        e_datazoom(toolbox = F, fillerColor = "#E5F5F9") %>%
-        e_grid(show = T)
+        e_datazoom(toolbox = FALSE, fillerColor = "#E5F5F9") %>%
+        e_grid(show = TRUE) %>%
+        e_tooltip(trigger = "item") %>%
+        e_animation(duration = 5000) %>%
+        e_toolbox_feature(feature = "saveAsImage") %>%
+        e_toolbox_feature(feature = "dataZoom") %>%
+        e_toolbox_feature(feature = "dataView") 
     })
 
   })

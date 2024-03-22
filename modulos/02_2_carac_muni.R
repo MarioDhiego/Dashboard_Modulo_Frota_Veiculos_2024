@@ -8,7 +8,7 @@ muni_ui <- function(id) {
         column(2,
                selectInput(
                  inputId = NS(id, "local"),
-                 label = "Localidade",
+                 label = "LOCALIDADE",
                  choices = frota %>% filter(local != "Pará") %>% pull(local) %>% unique(),
                  width = "200px"
                )
@@ -16,7 +16,7 @@ muni_ui <- function(id) {
         column(2,
                selectInput(
                  inputId = NS(id, "anolocal"),
-                 label = "Ano",
+                 label = "ANO",
                  choices = sort(unique(frota[["ano"]]), decreasing = T),
                  width = "200px"
                )
@@ -28,22 +28,22 @@ muni_ui <- function(id) {
       box(
         title = textOutput(NS(id, "txtcat")),
         status = "primary",
-        collapsed = F,
-        headerBorder = T,
+        collapsed = FALSE,
+        headerBorder = TRUE,
         width = 6,
         withSpinner(
           echarts4rOutput(NS(id,"catbar"),height = "600px"),
           type = 8,
           color = "#007bff",
-          size = 0.5
+          size = 0.8
         ),
         footer = 
           list(
             div(
               style = "display: flex; justify-content: space-between;",
               div(
-                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "Detran-PA"),
-                tags$h6(tags$b("Elaboração:"), "Detran-PA")
+                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAN/DTI/Detran-PA"),
+                tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
               ),
               div(
                 style = "display: flex; justify-content: center; align-items: center;",
@@ -55,22 +55,22 @@ muni_ui <- function(id) {
       box(
         title = textOutput(NS(id, "txtcor")),
         status = "primary",
-        collapsed = F,
-        headerBorder = T,
+        collapsed = FALSE,
+        headerBorder = TRUE,
         width = 6,
         withSpinner(
           echarts4rOutput(NS(id,"corbar"),height = "600px"),
           type = 8,
           color = "#007bff",
-          size = 0.5
+          size = 0.8
         ),
         footer = 
           list(
             div(
               style = "display: flex; justify-content: space-between;",
               div(
-                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "Detran-PA"),
-                tags$h6(tags$b("Elaboração:"), "Detran-PA")
+                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAN/DTI/Detran-PA"),
+                tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/Detran-PA")
               ),
               div(
                 style = "display: flex; justify-content: center; align-items: center;",
@@ -82,22 +82,22 @@ muni_ui <- function(id) {
       box(
         title = textOutput(NS(id, "txtcombu")),
         status = "primary",
-        collapsed = F,
-        headerBorder = T,
+        collapsed = FALSE,
+        headerBorder = TRUE,
         width = 12,
         withSpinner(
           echarts4rOutput(NS(id,"combubar"),height = "600px"),
           type = 8,
           color = "#007bff",
-          size = 0.5
+          size = 0.8
         ),
         footer = 
           list(
             div(
               style = "display: flex; justify-content: space-between;",
               div(
-                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "Detran-PA"),
-                tags$h6(tags$b("Elaboração:"), "Detran-PA")
+                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAN/DTI/Detran-PA"),
+                tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
               ),
               div(
                 style = "display: flex; justify-content: center; align-items: center;",
@@ -117,15 +117,15 @@ muni_ui <- function(id) {
           echarts4rOutput(NS(id,"espbar"),height = "600px"),
           type = 8,
           color = "#007bff",
-          size = 0.5
+          size = 0.8
         ),
         footer = 
           list(
             div(
               style = "display: flex; justify-content: space-between;",
               div(
-                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "Detran-PA"),
-                tags$h6(tags$b("Elaboração:"), "Detran-PA")
+                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAN/DTI/DETRAN-PA"),
+                tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
               ),
               div(
                 style = "display: flex; justify-content: center; align-items: center;",
@@ -144,15 +144,15 @@ muni_ui <- function(id) {
           echarts4rOutput(NS(id,"nacpie"),height = "600px"),
           type = 8,
           color = "#007bff",
-          size = 0.5
+          size = 0.8
         ),
         footer = 
           list(
             div(
               style = "display: flex; justify-content: space-between;",
               div(
-                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "Detran-PA"),
-                tags$h6(tags$b("Elaboração:"), "Detran-PA")
+                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAN/DTI/DETRAN-PA"),
+                tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
               ),
               div(
                 style = "display: flex; justify-content: center; align-items: center;",
@@ -171,15 +171,15 @@ muni_ui <- function(id) {
           reactableOutput(NS(id,"tab")),
           type = 8,
           color = "#007bff",
-          size = 0.5
+          size = 0.8
         ),
         footer = 
           list(
             div(
               style = "display: flex; justify-content: space-between;",
               div(
-                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "Detran-PA"),
-                tags$h6(tags$b("Elaboração:"), "Detran-PA")
+                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAN/DTI/DETRAN-PA"),
+                tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
               ),
               div(
                 style = "display: flex; justify-content: center; align-items: center;",
@@ -223,12 +223,12 @@ muni_Server <- function(id) {
         e_charts(x = categoria) %>%
         e_bar(
           serie = valor,
-          color = "#f2c94e",
+          color = "blue",
           name = "Quantidade",
-          legend = F,
+          legend = FALSE,
           symbol = "roundRect",
           symbolSize = 6,
-          legendHoverLink = T,
+          legendHoverLink = TRUE,
           itemStyle = list(barBorderRadius = 3)
         ) %>%
         e_labels(
@@ -265,6 +265,11 @@ muni_Server <- function(id) {
         ) %>%
         e_locale("pt-Br") %>%
         e_grid(show = T,containLabel = T,left = "5%") %>%
+        e_tooltip(trigger = "item")%>%
+        e_animation(duration = 5000) %>%
+        e_toolbox_feature(feature = "saveAsImage") %>%
+        e_toolbox_feature(feature = "dataZoom") %>%
+        e_toolbox_feature(feature = "dataView") %>%
         e_flip_coords()
     })
     #Cor dos Veículos - Gráfico de Barras----
@@ -296,12 +301,12 @@ muni_Server <- function(id) {
         e_charts(x = categoria) %>%
         e_bar(
           serie = valor,
-          color = "#3ba272",
+          color = "blue",
           name = "Quantidade",
-          legend = F,
+          legend = FALSE,
           symbol = "roundRect",
           symbolSize = 6,
-          legendHoverLink = T,
+          legendHoverLink = TRUE,
           itemStyle = list(barBorderRadius = 2)
         ) %>%
         e_labels(
@@ -323,7 +328,7 @@ muni_Server <- function(id) {
               padding = c(30, 0, 0, 0),
               fontSize = 14
             ),
-          scale = T,
+          scale = TRUE,
           splitNumber = 4,
           nameLocation = "middle",
           axisLabel = list(
@@ -337,7 +342,11 @@ muni_Server <- function(id) {
           )
         ) %>%
         e_locale("pt-Br") %>%
-        e_grid(show = T,containLabel = T,left = "5%") %>%
+        e_grid(show = TRUE,containLabel = TRUE,left = "5%") %>%
+        e_animation(duration = 5000) %>%
+        e_toolbox_feature(feature = "saveAsImage") %>%
+        e_toolbox_feature(feature = "dataZoom") %>%
+        e_toolbox_feature(feature = "dataView") %>%
         e_flip_coords()
     })
     
@@ -369,12 +378,12 @@ muni_Server <- function(id) {
         e_charts(x = categoria) %>%
         e_bar(
           serie = valor,
-          color = "#e94117",
+          color = "blue",
           name = "Quantidade",
-          legend = F,
+          legend = FALSE,
           symbol = "roundRect",
           symbolSize = 6,
-          legendHoverLink = T,
+          legendHoverLink = TRUE,
           itemStyle = list(barBorderRadius = 3)
         ) %>%
         e_labels(
@@ -396,7 +405,7 @@ muni_Server <- function(id) {
               padding = c(30, 0, 0, 0),
               fontSize = 14
             ),
-          scale = T,
+          scale = TRUE,
           splitNumber = 8,
           nameLocation = "middle",
           axisLabel = list(
@@ -410,7 +419,11 @@ muni_Server <- function(id) {
           )
         ) %>%
         e_locale("pt-Br") %>%
-        e_grid(show = T,left = "15%") %>%
+        e_grid(show = TRUE,left = "15%") %>%
+        e_animation(duration = 5000) %>%
+        e_toolbox_feature(feature = "saveAsImage") %>%
+        e_toolbox_feature(feature = "dataZoom") %>%
+        e_toolbox_feature(feature = "dataView") %>%
         e_flip_coords()
     })
     
@@ -443,12 +456,12 @@ muni_Server <- function(id) {
         e_charts(x = categoria) %>%
         e_bar(
           serie = valor,
-          color = "#e94117",
+          color = "blue",
           name = "Quantidade",
-          legend = F,
+          legend = FALSE,
           symbol = "roundRect",
           symbolSize = 6,
-          legendHoverLink = T,
+          legendHoverLink = TRUE,
           itemStyle = list(barBorderRadius = 3)
         ) %>%
         e_labels(
@@ -470,7 +483,7 @@ muni_Server <- function(id) {
               padding = c(40, 0, 0, 0),
               fontSize = 14
             ),
-          scale = T,
+          scale = TRUE,
           splitNumber = 8,
           nameLocation = "middle",
           axisLabel = list(
@@ -484,7 +497,11 @@ muni_Server <- function(id) {
           )
         ) %>%
         e_locale("pt-Br") %>%
-        e_grid(show = T,left = "15%") 
+        e_grid(show = TRUE,left = "15%") 
+        e_animation(duration = 5000) %>%
+        e_toolbox_feature(feature = "saveAsImage") %>%
+        e_toolbox_feature(feature = "dataZoom") %>%
+        e_toolbox_feature(feature = "dataView") 
     })
     
     #Nacionalidade do Veículo - Gráfico de Setor----
@@ -501,7 +518,7 @@ muni_Server <- function(id) {
     #Download
     downac <- reactive({
       frota %>% filter(local == input$local, ano == input$anolocal, variavel == "Nacionalidade do Veículo") %>% 
-        arrange(valor) %>% mutate(percentual = (valor/sum(valor,na.rm = T))*100) %>% 
+        arrange(valor) %>% mutate(percentual = (valor/sum(valor,na.rm = TRUE))*100) %>% 
         select(ri,local,variavel,categoria,ano,valor)
     })
     
@@ -514,11 +531,11 @@ muni_Server <- function(id) {
     
     output$nacpie <- renderEcharts4r({
       frota %>% filter(local == input$local, ano == input$anolocal, variavel == "Nacionalidade do Veículo") %>% 
-        arrange(valor) %>% mutate(percentual = (valor/sum(valor,na.rm = T))*100) %>% 
+        arrange(valor) %>% mutate(percentual = (valor/sum(valor,na.rm = TRUE))*100) %>% 
         e_charts(x = categoria) %>%
         e_pie(
           serie = percentual,
-          selectedMode = T,
+          selectedMode = TRUE,
           cursor = "pointer"
         ) %>% 
         e_tooltip(
@@ -529,7 +546,11 @@ muni_Server <- function(id) {
         return '<b>' + params.name + '</b>' + ' : ' + valor + ' (' + percentual + '%)';
       }
     ")
-        )
+        ) %>%
+        e_animation(duration = 5000) %>%
+        e_toolbox_feature(feature = "saveAsImage") %>%
+        e_toolbox_feature(feature = "dataZoom") %>%
+        e_toolbox_feature(feature = "dataView") 
     })
     
     
@@ -628,15 +649,15 @@ muni_Server <- function(id) {
         outlined = TRUE,
         resizable = TRUE,
         showSortable = TRUE,
-        pagination = F,
+        pagination = FALSE,
         columns =  list(
           variavel = colDef(name = "Características"),
           categoria = colDef(name = "Predominância"),
-          valor = colDef(name = "Quantidade", format = colFormat(separators = T, locales = "pt-BR")),
+          valor = colDef(name = "Quantidade", format = colFormat(separators = TRUE, locales = "pt-BR")),
           Percentual = colDef(
             name = "Percentual(%)",
             format = colFormat(
-              separators = T,
+              separators = TRUE,
               locales = "pt-BR",
               digits = 2
             )

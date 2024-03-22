@@ -1,4 +1,4 @@
-# Funções de módulo de Demografia Estadual
+
 # Função de UI
 loc_ui <- function(id) {
   fluidPage(
@@ -8,7 +8,7 @@ loc_ui <- function(id) {
           column(2,
                  selectInput(
                    inputId = NS(id, "local"),
-                   label = "Localidade",
+                   label = "LOCALIDADE",
                    choices = unique(frota[["ri"]]),
                    width = "200px"
                  )
@@ -16,8 +16,8 @@ loc_ui <- function(id) {
           column(2,
                  selectInput(
                    inputId = NS(id, "anolocal"),
-                   label = "Ano",
-                   choices = sort(unique(frota[["ano"]]), decreasing = T),
+                   label = "ANO",
+                   choices = sort(unique(frota[["ano"]]), decreasing = TRUE),
                    width = "200px"
                  )
           ) 
@@ -42,8 +42,8 @@ loc_ui <- function(id) {
               div(
                 style = "display: flex; justify-content: space-between;",
                 div(
-                  tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "Detran-PA"),
-                  tags$h6(tags$b("Elaboração:"), "Detran-PA")
+                  tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/DETRAN-PA"),
+                  tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
                 ),
                 div(
                   style = "display: flex; justify-content: center; align-items: center;",
@@ -69,8 +69,8 @@ loc_ui <- function(id) {
               div(
                 style = "display: flex; justify-content: space-between;",
                 div(
-                  tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "Detran-PA"),
-                  tags$h6(tags$b("Elaboração:"), "Detran-PA")
+                  tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/DETRAN-PA"),
+                  tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
                 ),
                 div(
                   style = "display: flex; justify-content: center; align-items: center;",
@@ -82,8 +82,8 @@ loc_ui <- function(id) {
         box(
           title = textOutput(NS(id, "txtcombu")),
           status = "primary",
-          collapsed = F,
-          headerBorder = T,
+          collapsed = FALSE,
+          headerBorder = TRUE,
           width = 12,
           withSpinner(
             echarts4rOutput(NS(id,"combubar"),height = "600px"),
@@ -96,8 +96,8 @@ loc_ui <- function(id) {
               div(
                 style = "display: flex; justify-content: space-between;",
                 div(
-                  tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "Detran-PA"),
-                  tags$h6(tags$b("Elaboração:"), "Detran-PA")
+                  tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/DETRAN-PA"),
+                  tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
                 ),
                 div(
                   style = "display: flex; justify-content: center; align-items: center;",
@@ -124,8 +124,8 @@ loc_ui <- function(id) {
               div(
                 style = "display: flex; justify-content: space-between;",
                 div(
-                  tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "Detran-PA"),
-                  tags$h6(tags$b("Elaboração:"), "Detran-PA")
+                  tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/DETRAN-PA"),
+                  tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
                 ),
                 div(
                   style = "display: flex; justify-content: center; align-items: center;",
@@ -151,8 +151,8 @@ loc_ui <- function(id) {
               div(
                 style = "display: flex; justify-content: space-between;",
                 div(
-                  tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "Detran-PA"),
-                  tags$h6(tags$b("Elaboração:"), "Detran-PA")
+                  tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/DETRAN-PA"),
+                  tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
                 ),
                 div(
                   style = "display: flex; justify-content: center; align-items: center;",
@@ -178,8 +178,8 @@ loc_ui <- function(id) {
               div(
                 style = "display: flex; justify-content: space-between;",
                 div(
-                  tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "Detran-PA"),
-                  tags$h6(tags$b("Elaboração:"), "Detran-PA")
+                  tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/DETRAN-PA"),
+                  tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
                 ),
                 div(
                   style = "display: flex; justify-content: center; align-items: center;",
@@ -199,10 +199,10 @@ loc_Server <- function(id) {
     #Título
     titulo1 <- renderText({
       if (input$local == "Pará") {
-        paste0("Principais Categorias dos Veículos Licenciados - ",input$local," - ",input$anolocal)
+        paste0("Principais Categorias dos Veículos Registrados - ",input$local," - ",input$anolocal)
         
       }else{
-        paste0("Principais Categorias dos Veículos Licenciados - Região de Integração ",input$local," - ",input$anolocal)  
+        paste0("Principais Categorias dos Veículos Registrados - Região de Integração ",input$local," - ",input$anolocal)  
       }
       
     })
@@ -215,7 +215,7 @@ loc_Server <- function(id) {
     downcat <- reactive({
       frota %>% filter( ri == input$local, ano == input$anolocal, variavel == "Categoria do veículo") %>% 
         group_by(ri,categoria) %>% 
-        summarize( valor = sum(valor,na.rm = T),.groups = 'drop') %>% complete() %>% 
+        summarize( valor = sum(valor,na.rm = TRUE),.groups = 'drop') %>% complete() %>% 
         arrange(valor) %>% mutate(variavel = "Categoria do veículo",ano = input$anolocal) %>% 
         select(ri,variavel,categoria,ano,valor)  
     })
@@ -229,17 +229,17 @@ loc_Server <- function(id) {
     output$catbar <- renderEcharts4r({
       frota %>% filter( ri == input$local, ano == input$anolocal, variavel == "Categoria do veículo") %>% 
         group_by(ri,categoria) %>% 
-        summarize( valor = sum(valor,na.rm = T),.groups = 'drop') %>% complete() %>% 
+        summarize( valor = sum(valor,na.rm = TRUE),.groups = 'drop') %>% complete() %>% 
         arrange(valor) %>% 
         e_charts(x = categoria) %>%
         e_bar(
           serie = valor,
-          color = "#f2c94e",
+          color = "blue",
           name = "Quantidade",
-          legend = F,
+          legend = FALSE,
           symbol = "roundRect",
           symbolSize = 6,
-          legendHoverLink = T,
+          legendHoverLink = TRUE,
           itemStyle = list(barBorderRadius = 3)
         ) %>%
         e_labels(
@@ -261,7 +261,7 @@ loc_Server <- function(id) {
               padding = c(30, 0, 0, 0),
               fontSize = 14
             ),
-          scale = T,
+          scale = TRUE,
           splitNumber = 4,
           nameLocation = "middle",
           axisLabel = list(
@@ -276,6 +276,11 @@ loc_Server <- function(id) {
         ) %>%
         e_locale("pt-Br") %>%
         e_grid(show = T,containLabel = T,left = "5%") %>%
+        e_tooltip(trigger = "item")%>%
+        e_animation(duration = 5000) %>%
+        e_toolbox_feature(feature = "saveAsImage") %>%
+        e_toolbox_feature(feature = "dataZoom") %>%
+        e_toolbox_feature(feature = "dataView") %>%
         e_flip_coords()
     })
     #Cor dos Veículos - Gráfico de Barras----
@@ -297,7 +302,7 @@ loc_Server <- function(id) {
     downcor <- reactive({
      frota %>% filter( ri == input$local, ano == input$anolocal, variavel == "Cor do veículo") %>% 
         group_by(ri,categoria) %>% 
-        summarize( valor = sum(valor,na.rm = T),.groups = 'drop') %>% complete() %>% 
+        summarize( valor = sum(valor,na.rm = TRUE),.groups = 'drop') %>% complete() %>% 
         arrange(valor) %>% mutate(variavel = "Cor do veículo",ano = input$anolocal) %>% 
         select(ri,variavel,categoria,ano,valor)  
     })
@@ -311,18 +316,18 @@ loc_Server <- function(id) {
     output$corbar <- renderEcharts4r({
      frota %>% filter( ri == input$local, ano == input$anolocal, variavel == "Cor do veículo") %>% 
         group_by(ri,categoria) %>% 
-        summarize( valor = sum(valor,na.rm = T),.groups = 'drop') %>% complete() %>% 
+        summarize( valor = sum(valor,na.rm = TRUE),.groups = 'drop') %>% complete() %>% 
         arrange(valor) %>% 
         
         e_charts(x = categoria) %>%
         e_bar(
           serie = valor,
-          color = "#3ba272",
+          color = "blue",
           name = "Quantidade",
           legend = F,
           symbol = "roundRect",
           symbolSize = 6,
-          legendHoverLink = T,
+          legendHoverLink = TRUE,
           itemStyle = list(barBorderRadius = 2)
         ) %>%
         e_labels(
@@ -344,7 +349,7 @@ loc_Server <- function(id) {
               padding = c(30, 0, 0, 0),
               fontSize = 14
             ),
-          scale = T,
+          scale = TRUE,
           splitNumber = 4,
           nameLocation = "middle",
           axisLabel = list(
@@ -358,7 +363,11 @@ loc_Server <- function(id) {
           )
         ) %>%
         e_locale("pt-Br") %>%
-        e_grid(show = T,containLabel = T,left = "5%") %>%
+        e_grid(show = TRUE,containLabel = TRUE,left = "5%") %>%
+        e_animation(duration = 5000) %>%
+        e_toolbox_feature(feature = "saveAsImage") %>%
+        e_toolbox_feature(feature = "dataZoom") %>%
+        e_toolbox_feature(feature = "dataView") %>%
         e_flip_coords()
     })
     
@@ -395,17 +404,17 @@ loc_Server <- function(id) {
     output$combubar <- renderEcharts4r({
       frota %>% filter( ri == input$local, ano == input$anolocal, variavel == "Tipo de combustível(s) utilizado(s)") %>% 
         group_by(ri,categoria) %>% 
-        summarize( valor = sum(valor,na.rm = T),.groups = 'drop') %>% 
+        summarize( valor = sum(valor,na.rm = TRUE),.groups = 'drop') %>% 
         arrange(valor) %>% 
         e_charts(x = categoria) %>%
         e_bar(
           serie = valor,
-          color = "#e94117",
+          color = "blue",
           name = "Quantidade",
-          legend = F,
+          legend = FALSE,
           symbol = "roundRect",
           symbolSize = 6,
-          legendHoverLink = T,
+          legendHoverLink = TRUE,
           itemStyle = list(barBorderRadius = 3)
         ) %>%
         e_labels(
@@ -427,7 +436,7 @@ loc_Server <- function(id) {
               padding = c(30, 0, 0, 0),
               fontSize = 14
             ),
-          scale = T,
+          scale = TRUE,
           splitNumber = 8,
           nameLocation = "middle",
           axisLabel = list(
@@ -441,7 +450,11 @@ loc_Server <- function(id) {
           )
         ) %>%
         e_locale("pt-Br") %>%
-        e_grid(show = T,left = "15%") %>%
+        e_grid(show = TRUE,left = "15%") %>%
+        e_animation(duration = 5000) %>%
+        e_toolbox_feature(feature = "saveAsImage") %>%
+        e_toolbox_feature(feature = "dataZoom") %>%
+        e_toolbox_feature(feature = "dataView") %>%
         e_flip_coords()
     })
     
@@ -463,7 +476,7 @@ output$txtesp <- renderText({
     downesp <- reactive({
      frota %>% filter( ri == input$local, ano == input$anolocal, variavel == "Espécie de Veículo") %>% 
         group_by(ri,categoria) %>% 
-        summarize( valor = sum(valor,na.rm = T),.groups = 'drop') %>% 
+        summarize( valor = sum(valor,na.rm = TRUE),.groups = 'drop') %>% 
         arrange(valor) %>% mutate(variavel = "Espécie de Veículo",ano = input$anolocal) %>% 
         select(ri,variavel,categoria,ano,valor)  
     })
@@ -482,7 +495,7 @@ output$txtesp <- renderText({
         e_charts(x = categoria) %>%
         e_bar(
           serie = valor,
-          color = "#e94117",
+          color = "blue",
           name = "Quantidade",
           legend = F,
           symbol = "roundRect",
@@ -523,7 +536,11 @@ output$txtesp <- renderText({
           )
         ) %>%
         e_locale("pt-Br") %>%
-        e_grid(show = T,left = "15%") 
+        e_grid(show = T,left = "15%") %>%
+        e_animation(duration = 5000) %>%
+        e_toolbox_feature(feature = "saveAsImage") %>%
+        e_toolbox_feature(feature = "dataZoom") %>%
+        e_toolbox_feature(feature = "dataView") 
     })
     
     #Nacionalidade do Veículo - Gráfico de Setor----

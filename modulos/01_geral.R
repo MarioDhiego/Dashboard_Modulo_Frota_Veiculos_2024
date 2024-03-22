@@ -1,4 +1,4 @@
-# Funções de módulo de Demografia Estadual
+
 # Função de UI
 total_ui <- function(id) {
   fluidPage(tags$head(
@@ -39,7 +39,7 @@ total_ui <- function(id) {
               column(2,
               selectInput(
                 inputId = NS(id, "local"),
-                label = "Localidade",
+                label = "LOCALIDADE",
                 choices = unique(frota[["ri"]]),
                 width = "200px"
               )
@@ -47,10 +47,11 @@ total_ui <- function(id) {
               column(2,
               selectInput(
                 inputId = NS(id, "tipo"),
-                label = "Veículos Totais e por Tipo",
+                label = "VEÍCULOS TOTAIS/TIPO",
                 choices =
                   list(
-                    "Total de veiculos" = frota %>% filter(tipo_veiculo == "Total de Veículos") %>% pull(tipo_veiculo) %>% unique(),
+                    "Total de Veículos" = frota %>% filter(tipo_veiculo == "Total de Veículos") %>% 
+                      pull(tipo_veiculo) %>% unique(),
                     Tipo = frota %>% filter(tipo_veiculo != "Total de Veículos") %>% pull(tipo_veiculo) %>% unique()
                   ),
                 width = "200px"
@@ -58,8 +59,8 @@ total_ui <- function(id) {
               ),
               selectInput(
                 inputId = NS(id, "ano"),
-                label = "Ano",
-                choices = sort(unique(frota[["ano"]]),decreasing = T),
+                label = "ANO",
+                choices = sort(unique(frota[["ano"]]),decreasing = TRUE),
                 width = "100px"
               )
             ),
@@ -68,10 +69,10 @@ total_ui <- function(id) {
         #Mapa----
         box(
           title = textOutput(NS(id, "txt1")),
-          # maximizable = T,
+          # maximizable = TRUE,
           status = "primary",
-          collapsed = F,
-          headerBorder = T,
+          collapsed = FALSE,
+          headerBorder = TRUE,
           width = 12,
           withSpinner(
             leafletOutput(NS(id,"map")),
@@ -80,18 +81,18 @@ total_ui <- function(id) {
             size = 0.5
           ),
           footer = list(tags$h6(
-            tags$b("Fonte:", style = 'font-family: sans-serif;'), "Detran-PA"
+            tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/DETRAN-PA"
           ),
-          tags$h6(tags$b("Elaboração:"), "Detran-PA"))
+          tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA"))
         )),
         column(6,
         #Tabela Total----
         box(
           title = textOutput(NS(id, "txt2")),
           status = "primary",
-          collapsed = F,
-          headerBorder = T,
-          # maximizable = T,
+          collapsed = FALSE,
+          headerBorder = TRUE,
+          # maximizable = TRUE,
           width = 12,
           withSpinner(
             reactableOutput(NS(id,"tab"),height = "400px"),
@@ -105,7 +106,7 @@ total_ui <- function(id) {
                 style = "display: flex; justify-content: space-between;",
                 div(
                   tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAN/DTI/DETRAN-PA"),
-                  tags$h6(tags$b("Elaboração:"), "CNP/DETRAN-PA")
+                  tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
                 ),
                 div(
                   style = "display: flex; justify-content: center; align-items: center;",
@@ -122,19 +123,19 @@ total_ui <- function(id) {
           #Gráfico de Barras----     
           box(title = textOutput(NS(id, "txt3")),
               status = "primary",
-              collapsed = F,
-              headerBorder = T,
+              collapsed = FALSE,
+              headerBorder = TRUE,
               width = 12,
               selectInput(
                 inputId = NS(id, "anografbar"),
-                label = "Ano",
-                choices = sort(unique(frota[["ano"]]),decreasing = T),
+                label = "ANO",
+                choices = sort(unique(frota[["ano"]]),decreasing = TRUE),
                 width = "100px"
               ),
               withSpinner(
                 echarts4rOutput(NS(id, "grafbar"), height = "600px"),
                 type = 8,
-                color = "#f2c94e",
+                color = "blue",
                 size = 0.5
               ),
               footer = 
@@ -142,8 +143,8 @@ total_ui <- function(id) {
               div(
                 style = "display: flex; justify-content: space-between;",
                 div(
-                  tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "Detran-PA"),
-                  tags$h6(tags$b("Elaboração:"), "Detran-PA")
+                  tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/DETRAN-PA"),
+                  tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
                 ),
                 div(
                   style = "display: flex; justify-content: center; align-items: center;",
@@ -156,15 +157,15 @@ total_ui <- function(id) {
         box(
           title = textOutput(NS(id, "txt4")),
           status = "primary",
-          collapsed = F,
-          headerBorder = T,
+          collapsed = FALSE,
+          headerBorder = TRUE,
           width = 12,
           fluidRow(
           column(3,
                  #Selecionar pará ou Municipio
                  selectInput(
                    inputId = NS(id, "localc1"),
-                   label = "Localidade 1",
+                   label = "LOCALIDADE 1",
                    choices = unique(frota[["local"]]),
                    width = "200px"
                  )),
@@ -172,7 +173,7 @@ total_ui <- function(id) {
                  #Selecionar apenas município
                  selectInput(
                    inputId = NS(id, "localc2"),
-                   label = "Localidade 2",
+                   label = "LOCALIDADE 2",
                    choices = NULL,
                    width = "250px"
                  ))
@@ -183,15 +184,15 @@ total_ui <- function(id) {
                    echarts4rOutput(NS(id,"graf"),height = "500px"),
                    type = 8,
                    color = "#3C8DBD",
-                   size = 0.5
+                   size = 0.8
                  )),
           footer = 
             list(
               div(
                 style = "display: flex; justify-content: space-between;",
                 div(
-                  tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "Detran-PA"),
-                  tags$h6(tags$b("Elaboração:"), "Detran-PA")
+                  tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/DETRAN-PA"),
+                  tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
                 ),
                 div(
                   style = "display: flex; justify-content: center; align-items: center;",
@@ -203,19 +204,19 @@ total_ui <- function(id) {
         #Gráfico de TreeMap----     
         box(title = textOutput(NS(id, "txt5")),
             status = "primary",
-            collapsed = F,
-            headerBorder = T,
+            collapsed = FALSE,
+            headerBorder = TRUE,
             width = 12,
             selectInput(
               inputId = NS(id, "anografmap"),
-              label = "Ano",
-              choices = sort(unique(frota[["ano"]]),decreasing = T),
+              label = "ANO",
+              choices = sort(unique(frota[["ano"]]),decreasing = TRUE),
               width = "100px"
             ),
             withSpinner(
               echarts4rOutput(NS(id, "graftreemap"), height = "600px"),
               type = 8,
-              color = "#f2c94e",
+              color = "blue",
               size = 0.5
             ),
             footer = 
@@ -223,8 +224,8 @@ total_ui <- function(id) {
                 div(
                   style = "display: flex; justify-content: space-between;",
                   div(
-                    tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "Detran-PA"),
-                    tags$h6(tags$b("Elaboração:"), "Detran-PA")
+                    tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/DETRAN-PA"),
+                    tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/EDetran-PA")
                   ),
                   div(
                     style = "display: flex; justify-content: center; align-items: center;",
@@ -246,9 +247,9 @@ total_Server <- function(id) {
     output$total_pa <- renderInfoBox({
       valor <- frota %>% filter(local == "Pará",variavel == "Total de veículo Licenciados",ano == input$ano) %>% select(valor)
       bs4InfoBox(
-        title = tags$strong("Pará"), 
+        title = tags$strong("PARÁ"), 
         value = tags$h2(tags$strong(prettyNum(valor$valor, big.mark = ".", decimal.mark = ",", scientific = FALSE))),
-        subtitle = paste0("Total de Veículos Licenciados - ", input$ano),
+        subtitle = paste0("Total de Veículos Registrados - ", input$ano),
         color = "primary",
         fill = TRUE,
         gradient = TRUE,
@@ -267,9 +268,9 @@ total_Server <- function(id) {
       valor <- valor %>% filter(valor == max(valor))
       
       bs4InfoBox(
-        title = tags$strong(paste0("Região de Integração ", valor$ri)),
+        title = tags$strong(paste0("REGIÃO DE INTEGRAÇÃO ", valor$ri )),
         value = tags$h2(tags$strong(prettyNum(valor$valor, big.mark = ".", decimal.mark = ",", scientific = FALSE))),
-        subtitle = paste0("Maior Nº de veículos licenciados - ", input$ano),
+        subtitle = paste0("Maior Nº de Veículos Registrados - ", input$ano),
         fill = TRUE,
         gradient = TRUE,
         iconElevation = 2,
@@ -283,11 +284,11 @@ total_Server <- function(id) {
       valor <- frota %>% filter(ri == "Pará",variavel == "Tipo de Veículo", ano == input$ano)
       valor <- valor %>% filter(valor == max(valor))
       bs4InfoBox(
-        title = tags$strong(paste0("Tipo ", valor$tipo_veiculo)),
+        title = tags$strong(paste0("TIPO ", valor$tipo_veiculo)),
         value = tags$h2(tags$strong(prettyNum(valor$valor, big.mark = ".", decimal.mark = ",", scientific = FALSE))),
-        subtitle = paste0("Tipo de Veículo com maior quantidadde - ", input$ano),
+        subtitle = paste0("Tipo de Veículo maior Quantidadde - ", input$ano),
         fill = TRUE,
-        gradient = TRUE,
+        gradient = TRUE, 
         iconElevation = 2,
         color = "purple",
         icon = icon("chart-bar")
@@ -300,12 +301,12 @@ total_Server <- function(id) {
       if (input$tipo == "Total de Veículos") {
       if (input$local == "Pará") {
         paste0(
-          "Distribuição do Total de Veículos Licenciados - Pará - ",
+          "Distribuição do Total de Veículos Registrados - Pará - ",
           input$ano
         )
       }else{
         paste0(
-          "Distribuição do Total Veículos Licenciados - Região de Integração ",
+          "Distribuição do Total Veículos Registrados - Região de Integração ",
           input$local,
           " - ",
           input$ano)
@@ -394,7 +395,10 @@ total_Server <- function(id) {
       #Mapas com leafleft
       leaflet(
         x, options = leafletOptions(minZoom = 0, maxZoom = 15),width = "100%",height = "") %>%
+        
         addTiles() %>%
+        addProviderTiles(providers$Esri.NatGeoWorldMap)%>%
+        #addProviderTiles(providers$Esri.WorldStreetMap)%>%
         addPolygons(
           weight = 2,
           opacity = 1,
@@ -438,12 +442,12 @@ total_Server <- function(id) {
       if (input$tipo == "Total de Veículos") {
         if (input$local == "Pará") {
           paste0(
-            "Distribuição dos Veículos Licenciados Total - Pará - ",
+            "Distribuição dos Veículos Registrados Total - Pará - ",
             input$ano
           )
         }else{
           paste0(
-            "Distribuição dos Veículos Licenciados Total - Região de Integração ",
+            "Distribuição dos Veículos Registrados Total - Região de Integração ",
             input$local,
             " - ",
             input$ano)
@@ -595,12 +599,12 @@ total_Server <- function(id) {
         e_charts(tipo_veiculo) %>%
         e_bar(
           serie = valor,
-          color = "#f2c94e",
+          color = "blue",
           name = "Quantidade",
-          legend = F,
+          legend = FALSE,
           symbol = "roundRect",
           symbolSize = 6,
-          legendHoverLink = T,
+          legendHoverLink = TRUE,
           itemStyle = list(barBorderRadius = 0)
         ) %>%
         e_labels(
@@ -637,11 +641,16 @@ total_Server <- function(id) {
         ) %>%
         e_locale("pt-Br") %>%
         e_grid(
-          show = T,
+          show = TRUE,
           width = "80%",
           height = "80%",
           left = "15%"
         ) %>%
+        e_tooltip(trigger = "item")%>%
+        e_animation(duration = 5000) %>%
+        e_toolbox_feature(feature = "saveAsImage") %>%
+        e_toolbox_feature(feature = "dataZoom") %>%
+        e_toolbox_feature(feature = "dataView") %>%
         e_flip_coords()
     })
 
@@ -659,7 +668,7 @@ total_Server <- function(id) {
       choices <- df$local %>% unique()
       updateSelectInput(
         inputId = "localc2",
-        choices = c("Selecione um município", choices),
+        choices = c("Selecione um Município", choices),
         session
       )
     })
@@ -715,12 +724,13 @@ total_Server <- function(id) {
             serie = valor,
             color = "#dd3d28",
             name = "Quantidade",
-            legend = F,
+            legend = FALSE,
             symbol = "roundRect",
-            symbolSize = 6,
-            legendHoverLink = T,
+            symbolSize = 8,
+            legendHoverLink = TRUE,
             itemStyle = list(barBorderRadius = 5)
           ) %>%
+          e_area(x = ano) %>%
           e_tooltip(
             trigger = "axis",
             formatter =
@@ -736,7 +746,7 @@ total_Server <- function(id) {
           e_y_axis(
             name = "Quantidade",
             nameTextStyle = list(fontWeight = "bold", fontSize = 14),
-            scale = T,
+            scale = TRUE,
             axisLabel = list(
               formatter = htmlwidgets::JS(
                 "
@@ -749,8 +759,8 @@ total_Server <- function(id) {
             )
           ) %>%
           e_locale("pt-Br") %>%
-          e_datazoom(toolbox = F, fillerColor = "#E5F5F9") %>%
-          e_grid(show = T)
+          e_datazoom(type = "slider",toolbox = FALSE, fillerColor = "#E5F5F9") %>%
+          e_grid(show = TRUE)
       } else {
         frota$valor <- ifelse(is.na(frota$valor), 0, frota$valor)
         a <- frota %>% filter(local == input$localc1,variavel == "Total de veículo Licenciados")
@@ -763,7 +773,7 @@ total_Server <- function(id) {
             legend = T,
             symbol = "roundRect",
             symbolSize = 6,
-            legendHoverLink = T,
+            legendHoverLink = TRUE,
             itemStyle = list(barBorderRadius = 5)
           ) %>%
           e_data(b, ano) %>%
@@ -774,7 +784,7 @@ total_Server <- function(id) {
             legend = T,
             symbol = "roundRect",
             symbolSize = 6,
-            legendHoverLink = T,
+            legendHoverLink = TRUE,
             itemStyle = list(barBorderRadius = 5)
           ) %>%
           e_tooltip(
@@ -784,9 +794,9 @@ total_Server <- function(id) {
             axisPointer = list(type = "shadow")
           ) %>%
           e_x_axis(
-            axisLabel = list(show = T, fontSize = 11),
+            axisLabel = list(show = TRUE, fontSize = 12),
             name = "Ano",
-            splitLine = list(show = T),
+            splitLine = list(show = TRUE),
             nameTextStyle = list(
               fontWeight = "bold",
               fontSize = 14,
@@ -796,7 +806,7 @@ total_Server <- function(id) {
           e_y_axis(
             name = "Quantidade",
             nameTextStyle = list(fontWeight = "bold", fontSize = 14),
-            scale = T,
+            scale = TRUE,
             axisLabel = list(
               formatter = htmlwidgets::JS(
                 "
@@ -812,7 +822,7 @@ total_Server <- function(id) {
             index = 1,
             name = "Quantidade",
             nameTextStyle = list(fontWeight = "bold", fontSize = 14),
-            scale = T,
+            scale = TRUE,
             axisLabel = list(
               formatter = htmlwidgets::JS(
                 "
@@ -824,14 +834,19 @@ total_Server <- function(id) {
             )
           ) %>%
           e_locale("pt-Br") %>%
-          e_datazoom(toolbox = F, fillerColor = "#E5F5F9") %>%
-          e_grid(show = T)
+          e_datazoom(toolbox = FALSE, fillerColor = "#E5F5F9") %>%
+          e_grid(show = TRUE)%>%
+          e_tooltip(trigger = "item")%>%
+          e_animation(duration = 5000) %>%
+          e_toolbox_feature(feature = "saveAsImage") %>%
+          e_toolbox_feature(feature = "dataZoom") %>%
+          e_toolbox_feature(feature = "dataView") 
       }
     })
     #Gráfico de Árvore----
     #Título Gráfico
     titulo5 <- reactive({
-    paste0("Treemap: Veículos Licenciados em Regiões de Integração e Municípios - ",input$anografmap)  
+    paste0("Treemap: Veículos Registrados em Regiões de Integração e Municípios - ",input$anografmap)  
     })
     
     output$txt5 <- renderText({
@@ -849,7 +864,18 @@ total_Server <- function(id) {
           frotamap <- frota %>% filter(ano == input$anografmap)
           
           # Defina os nomes dos grupos
-          grupos <- c("Araguaia", "Baixo Amazonas", "Carajás", "Guajará", "Guamá", "Lago_de_Tucuruí", "Marajó", "Rio Caeté", "Rio Capim", "Tapajós", "Tocantins", "Xingu")
+          grupos <- c("ARAGUAIA", 
+                      "BAIXO AMAZONAS", 
+                      "Carajás", 
+                      "Guajará", 
+                      "Guamá", 
+                      "Lago_de_Tucuruí", 
+                      "Marajó", 
+                      "Rio Caeté", 
+                      "Rio Capim", 
+                      "Tapajós", 
+                      "Tocantins", 
+                      "Xingu")
           
           # Crie uma função para filtrar os dados
           filtrar_grupo <- function(grupo) {
@@ -870,13 +896,20 @@ total_Server <- function(id) {
           
           #TreeMap
           mapa %>% 
-            e_charts() %>% 
+            e_charts() %>%
+            e_animation(duration = 5000) %>%
+            e_toolbox_feature(feature = "saveAsImage") %>%
+            e_toolbox_feature(feature = "dataZoom") %>%
+            e_toolbox_feature(feature = "dataView") %>%
             e_treemap(serie = "teste",
+                      label = list(show= TRUE, formatter = "{b} \n {c}"),
              leafDepth = 1,
              itemStyle = 
                list(borderWidth = 1,
                     borderColorSaturation = 0.2)
             ) %>% 
+            e_legend(selectedMode = "single") %>%
+            e_title("Frota Por Região de Integração") %>%
             e_tooltip(
               formatter = htmlwidgets::JS("
               function(params) {

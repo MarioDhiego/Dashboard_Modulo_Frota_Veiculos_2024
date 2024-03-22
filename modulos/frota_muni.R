@@ -7,7 +7,7 @@ frotamuni_ui <- function(id) {
       fluidRow(
       selectInput(
         inputId = NS(id, "muni"),
-        label = "Município",
+        label = "MUNICÍPIO",
         choices = frota2 %>%
           filter(municipio != "Pará") %>%
           pull(municipio) %>% unique(),
@@ -38,7 +38,7 @@ frotamuni_ui <- function(id) {
         2,
         selectInput(
           inputId = NS(id, "ano"),
-          label = "Ano",
+          label = "ANO",
           choices = sort(unique(frota2[["ano"]]), decreasing = T),
           width = "100px"
         )
@@ -58,8 +58,8 @@ frotamuni_ui <- function(id) {
           div(
             style = "display: flex; justify-content: space-between;",
             div(
-              tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "Detran-PA"),
-              tags$h6(tags$b("Elaboração:"), "Detran-PA")
+              tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/Detran-PA"),
+              tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/Detran-PA")
             ),
             div(
               style = "display: flex; justify-content: center; align-items: center;",
@@ -86,8 +86,8 @@ frotamuni_ui <- function(id) {
           div(
             style = "display: flex; justify-content: space-between;",
             div(
-              tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "Detran-PA"),
-              tags$h6(tags$b("Elaboração:"), "Detran-PA")
+              tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/Detran-PA"),
+              tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/Detran-PA")
             ),
             div(
               style = "display: flex; justify-content: center; align-items: center;",
@@ -121,8 +121,8 @@ frotamuni_ui <- function(id) {
           div(
             style = "display: flex; justify-content: space-between;",
             div(
-              tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "Detran-PA"),
-              tags$h6(tags$b("Elaboração:"), "Detran-PA")
+              tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/Detran-PA"),
+              tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/Detran-PA")
             ),
             div(
               style = "display: flex; justify-content: center; align-items: center;",
@@ -143,9 +143,9 @@ frotamuni_Server <- function(id) {
     titulo1 <- reactive({
       req(input$municomp1)
       if (input$municomp1 == "Selecione um município") {
-        paste0("Total da Frota de Veículos Subdivididos em Licenciados e Não Licenciados, ", input$muni, " - ", input$ano)
+        paste0("Total da Frota de Veículos: Licenciados e Não Licenciados, ", input$muni, " - ", input$ano)
       } else {
-        paste0("Total da Frota de Veículos Subdivididos em Licenciados e Não Licenciados, ", input$muni, " x ", input$municomp1, " - ", input$ano)
+        paste0("Total da Frota de Veículos: Licenciados e Não Licenciados, ", input$muni, " x ", input$municomp1, " - ", input$ano)
       }
     })
     # Filtra os dados
@@ -176,7 +176,7 @@ frotamuni_Server <- function(id) {
       x <- x %>% filter(municipio != frota2comp1())
       
       choices <- x$municipio %>% unique()
-      updateSelectInput(inputId = "municomp1", choices = c("Selecione um município", choices), session)
+      updateSelectInput(inputId = "municomp1", choices = c("Selecione um Município", choices), session)
     })
     
     ## Título
@@ -195,10 +195,10 @@ frotamuni_Server <- function(id) {
             serie = valor,
             color = "#c800c8",
             name = "Quantidade",
-            legend = F,
+            legend = FALSE,
             symbol = "roundRect",
             symbolSize = 6,
-            legendHoverLink = T,
+            legendHoverLink = TRUE,
             barWidth = "20%",
             itemStyle = list(barBorderRadius = 5)
           ) %>%
@@ -208,7 +208,7 @@ frotamuni_Server <- function(id) {
             axisPointer = list(type = "shadow")
           ) %>%
           e_x_axis(
-            axisLabel = list(show = T, fontSize = 11),
+            axisLabel = list(show = TRUE, fontSize = 11),
             name = "Tipo de Frota",
             nameLocation = "middle",
             nameTextStyle = list(fontWeight = "bold", padding = c(10, 0, 0, 0), fontSize = 14)
@@ -241,10 +241,10 @@ frotamuni_Server <- function(id) {
           e_bar(
             serie = valor,
             name = input$muni,
-            legend = T,
+            legend = TRUE,
             symbol = "roundRect",
-            symbolSize = 6,
-            legendHoverLink = T,
+            symbolSize = 8,
+            legendHoverLink = TRUE,
             barWidth = "20%",
             itemStyle = list(barBorderRadius = 5)
           ) %>%
@@ -252,10 +252,10 @@ frotamuni_Server <- function(id) {
           e_bar(
             serie = valor,
             name = input$municomp1,
-            legend = T,
+            legend = TRUE,
             symbol = "roundRect",
-            symbolSize = 6,
-            legendHoverLink = T,
+            symbolSize = 8,
+            legendHoverLink = TRUE,
             barWidth = "25%",
             itemStyle = list(barBorderRadius = 5)
           ) %>%
@@ -265,7 +265,7 @@ frotamuni_Server <- function(id) {
             axisPointer = list(type = "shadow")
           ) %>%
           e_x_axis(
-            axisLabel = list(show = T, fontSize = 11),
+            axisLabel = list(show = TRUE, fontSize = 12),
             name = "Tipo de Frota",
             nameLocation = "middle",
             nameTextStyle = list(fontWeight = "bold", padding = c(10, 0, 0, 0), fontSize = 14)
@@ -277,7 +277,7 @@ frotamuni_Server <- function(id) {
                 fontWeight = "bold",
                 fontSize = 14
               ),
-            scale = T,
+            scale = TRUE,
             axisLabel = list(
               formatter = htmlwidgets::JS("
               function (value, index) {
@@ -287,12 +287,17 @@ frotamuni_Server <- function(id) {
             )
           ) %>%
           e_locale("pt-Br") %>%
-          e_grid(show = T, height = "70%")
+          e_grid(show = TRUE, height = "70%") %>%
+          e_tooltip(trigger = "item") %>%
+          e_animation(duration = 5000) %>%
+          e_toolbox_feature(feature = "saveAsImage") %>%
+          e_toolbox_feature(feature = "dataZoom") %>%
+          e_toolbox_feature(feature = "dataView") 
       }
     })
     ## Tabela - Total da Frota de Veículos Subdivididos em Licenciados e Não Licenciados----
     titulo2 <- reactive({
-      paste0("Frota de Veículos no município de ",
+      paste0("Frota de Veículos no Município de ",
              input$muni, " - ", min(frota2$ano), " a ", max(frota2$ano))
     })
     # Filtra os dados
@@ -325,7 +330,7 @@ frotamuni_Server <- function(id) {
         outlined = TRUE,
         resizable = TRUE,
         showSortable = TRUE,
-        pagination = F,
+        pagination = FALSE,
         columns = list(
           ano =colDef(name = "Ano"),
           Frota = colDef(name = "Total")
@@ -365,7 +370,7 @@ frotamuni_Server <- function(id) {
       x <- x %>% filter(municipio != frota2comp2())
 
       choices <- x$municipio %>% unique()
-      updateSelectInput(inputId = "municomp2", choices = c("Selecione um município", choices), session)
+      updateSelectInput(inputId = "municomp2", choices = c("Selecione um Município", choices), session)
     })
     ## Título
     output$txtline <- renderText({
@@ -403,7 +408,7 @@ frotamuni_Server <- function(id) {
             legend = F,
             symbol = "roundRect",
             symbolSize = 6,
-            legendHoverLink = T,
+            legendHoverLink = TRUE,
             itemStyle = list(barBorderRadius = 5)
           ) %>%
           e_tooltip(
@@ -412,15 +417,15 @@ frotamuni_Server <- function(id) {
             axisPointer = list(type = "shadow")
           ) %>%
           e_x_axis(
-            axisLabel = list(show = T, fontSize = 11),
+            axisLabel = list(show = TRUE, fontSize = 11),
             name = "Ano",
-            splitLine = list(show = T),
+            splitLine = list(show = TRUE),
             nameTextStyle = list(fontWeight = "bold", fontSize = 14)
           ) %>%
           e_y_axis(
             name = "Quantidade",
             nameTextStyle = list(fontWeight = "bold", fontSize = 14),
-            scale = T,
+            scale = TRUE,
             axisLabel = list(
               formatter = htmlwidgets::JS("
               function (value, index) {
@@ -431,7 +436,7 @@ frotamuni_Server <- function(id) {
           ) %>%
           e_locale("pt-Br") %>%
           e_datazoom(toolbox = F, fillerColor = "#E5F5F9") %>%
-          e_grid(show = T)
+          e_grid(show = TRUE)
       } else {
         a <- frota2 %>% filter(municipio == input$muni, categoria == "Frota")
         b <- frota2 %>% filter(municipio == input$municomp2, categoria == "Frota")
@@ -450,10 +455,10 @@ frotamuni_Server <- function(id) {
           e_line(
             serie = valor,
             name = input$municomp2,
-            legend = T,
+            legend = TRUE,
             symbol = "roundRect",
-            symbolSize = 6,
-            legendHoverLink = T,
+            symbolSize = 10,
+            legendHoverLink = TRUE,
             itemStyle = list(barBorderRadius = 5)
           ) %>%
           e_tooltip(
@@ -462,15 +467,15 @@ frotamuni_Server <- function(id) {
             axisPointer = list(type = "shadow")
           ) %>%
           e_x_axis(
-            axisLabel = list(show = T, fontSize = 11),
+            axisLabel = list(show = TRUE, fontSize = 12),
             name = "Ano",
-            splitLine = list(show = T),
+            splitLine = list(show = TRUE),
             nameTextStyle = list(fontWeight = "bold", fontSize = 14)
           ) %>%
           e_y_axis(
             name = "Quantidade",
             nameTextStyle = list(fontWeight = "bold", fontSize = 14),
-            scale = T,
+            scale = TRUE,
             axisLabel = list(
               formatter = htmlwidgets::JS("
               function (value, index) {
@@ -481,7 +486,13 @@ frotamuni_Server <- function(id) {
           ) %>%
           e_locale("pt-Br") %>%
           e_datazoom(toolbox = F, fillerColor = "#E5F5F9") %>%
-          e_grid(show = T)
+          e_grid(show = TRUE) %>%
+          e_tooltip(trigger = "item")%>%
+          e_animation(duration = 5000) %>%
+          e_toolbox_feature(feature = "saveAsImage") %>%
+          e_toolbox_feature(feature = "dataZoom") %>%
+          e_toolbox_feature(feature = "dataView") 
+          
       }
     })
 

@@ -8,7 +8,7 @@ tipo_ui <- function(id) {
         column(2,
                selectInput(
                  inputId = NS(id, "tipo"),
-                 label = "Tipo de Veículo",
+                 label = "TIPO DE VEÍCULO",
                  choices = frota %>% filter(tipo_veiculo != "Total de Veículos") %>% pull(tipo_veiculo) %>% unique(),
                  width = "200px"
                )
@@ -18,7 +18,7 @@ tipo_ui <- function(id) {
           title = "Filtro Dinâmico",
                selectInput(
                  inputId = NS(id, "ano"),
-                 label = "Ano",
+                 label = "ANO",
                  choices = NULL,
                  width = "200px"
                ),
@@ -35,22 +35,22 @@ tipo_ui <- function(id) {
       box(
         title = textOutput(NS(id, "txtcat")),
         status = "primary",
-        collapsed = F,
-        headerBorder = T,
+        collapsed = FALSE,
+        headerBorder = TRUE,
         width = 6,
         withSpinner(
           echarts4rOutput(NS(id,"catbar"),height = "600px"),
           type = 8,
           color = "#007bff",
-          size = 0.5
+          size = 0.8
         ),
         footer = 
           list(
             div(
               style = "display: flex; justify-content: space-between;",
               div(
-                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "Detran-PA"),
-                tags$h6(tags$b("Elaboração:"), "Detran-PA")
+                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAN/DTI/DETRAN-PA"),
+                tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
               ),
               div(
                 style = "display: flex; justify-content: center; align-items: center;",
@@ -62,22 +62,22 @@ tipo_ui <- function(id) {
       box(
         title = textOutput(NS(id, "txtcor")),
         status = "primary",
-        collapsed = F,
-        headerBorder = T,
+        collapsed = FALSE,
+        headerBorder = TRUE,
         width = 6,
         withSpinner(
           echarts4rOutput(NS(id,"corbar"),height = "600px"),
           type = 8,
-          color = "#007bff",
-          size = 0.5
+          color = "blue",
+          size = 0.8
         ),
         footer = 
           list(
             div(
               style = "display: flex; justify-content: space-between;",
               div(
-                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "Detran-PA"),
-                tags$h6(tags$b("Elaboração:"), "Detran-PA")
+                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAN/DTI/Detran-PA"),
+                tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/Detran-PA")
               ),
               div(
                 style = "display: flex; justify-content: center; align-items: center;",
@@ -89,22 +89,22 @@ tipo_ui <- function(id) {
       box(
         title = textOutput(NS(id, "txtcombu")),
         status = "primary",
-        collapsed = F,
-        headerBorder = T,
+        collapsed = FALSE,
+        headerBorder = TRUE,
         width = 12,
         withSpinner(
           echarts4rOutput(NS(id,"combubar"),height = "600px"),
           type = 8,
-          color = "#007bff",
-          size = 0.5
+          color = "blue",
+          size = 0.8
         ),
         footer = 
           list(
             div(
               style = "display: flex; justify-content: space-between;",
               div(
-                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "Detran-PA"),
-                tags$h6(tags$b("Elaboração:"), "Detran-PA")
+                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAN/DTI/Detran-PA"),
+                tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/Detran-PA")
               ),
               div(
                 style = "display: flex; justify-content: center; align-items: center;",
@@ -117,22 +117,22 @@ tipo_ui <- function(id) {
       box(
         title = textOutput(NS(id, "txtesp")),
         status = "primary",
-        collapsed = F,
-        headerBorder = T,
+        collapsed = FALSE,
+        headerBorder = TRUE,
         width = 6,
         withSpinner(
           echarts4rOutput(NS(id,"espbar"),height = "600px"),
           type = 8,
-          color = "#007bff",
-          size = 0.5
+          color = "blue",
+          size = 0.8
         ),
         footer = 
           list(
             div(
               style = "display: flex; justify-content: space-between;",
               div(
-                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "Detran-PA"),
-                tags$h6(tags$b("Elaboração:"), "Detran-PA")
+                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAN/DTI/DETRAN-PA"),
+                tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
               ),
               div(
                 style = "display: flex; justify-content: center; align-items: center;",
@@ -144,22 +144,22 @@ tipo_ui <- function(id) {
       box(
         title = textOutput(NS(id, "txtnac")),
         status = "primary",
-        collapsed = F,
-        headerBorder = T,
+        collapsed = FALSE,
+        headerBorder = TRUE,
         width = 6,
         withSpinner(
           echarts4rOutput(NS(id,"nacpie"),height = "600px"),
           type = 8,
           color = "#007bff",
-          size = 0.5
+          size = 0.8
         ),
         footer = 
           list(
             div(
               style = "display: flex; justify-content: space-between;",
               div(
-                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "Detran-PA"),
-                tags$h6(tags$b("Elaboração:"), "Detran-PA")
+                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAN/DTI/DETRAN-PA"),
+                tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
               ),
               div(
                 style = "display: flex; justify-content: center; align-items: center;",
@@ -171,22 +171,22 @@ tipo_ui <- function(id) {
       box(
         title = textOutput(NS(id, "txtgeral")),
         status = "primary",
-        collapsed = F,
-        headerBorder = T,
+        collapsed = FALSE,
+        headerBorder = TRUE,
         width = 12,
         withSpinner(
           reactableOutput(NS(id,"tab")),
           type = 8,
           color = "#007bff",
-          size = 0.5
+          size = 0.8
         ),
         footer = 
           list(
             div(
               style = "display: flex; justify-content: space-between;",
               div(
-                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "Detran-PA"),
-                tags$h6(tags$b("Elaboração:"), "Detran-PA")
+                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAN/DTI/Detran-PA"),
+                tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
               ),
               div(
                 style = "display: flex; justify-content: center; align-items: center;",
@@ -248,12 +248,12 @@ tipo_Server <- function(id) {
         e_charts(x = categoria) %>%
         e_bar(
           serie = valor,
-          color = "#f2c94e",
+          color = "blue",
           name = "Quantidade",
           legend = F,
           symbol = "roundRect",
           symbolSize = 6,
-          legendHoverLink = T,
+          legendHoverLink = TRUE,
           itemStyle = list(barBorderRadius = 3)
         ) %>%
         e_labels(
@@ -275,7 +275,7 @@ tipo_Server <- function(id) {
               padding = c(30, 0, 0, 0),
               fontSize = 14
             ),
-          scale = T,
+          scale = TRUE,
           splitNumber = 4,
           nameLocation = "middle",
           axisLabel = list(
@@ -289,7 +289,11 @@ tipo_Server <- function(id) {
           )
         ) %>%
         e_locale("pt-Br") %>%
-        e_grid(show = T,containLabel = T,left = "5%") %>%
+        e_grid(show = TRUE,containLabel = TRUE,left = "5%") %>%
+        e_animation(duration = 5000) %>%
+        e_toolbox_feature(feature = "saveAsImage") %>%
+        e_toolbox_feature(feature = "dataZoom") %>%
+        e_toolbox_feature(feature = "dataView") %>%
         e_flip_coords()
     })
     #Cor dos Veículos - Gráfico de Barras----
@@ -328,12 +332,12 @@ tipo_Server <- function(id) {
         e_charts(x = categoria) %>%
         e_bar(
           serie = valor,
-          color = "#3ba272",
+          color = "blue",
           name = "Quantidade",
-          legend = F,
+          legend = FALSE,
           symbol = "roundRect",
           symbolSize = 6,
-          legendHoverLink = T,
+          legendHoverLink = TRUE,
           itemStyle = list(barBorderRadius = 2)
         ) %>%
         e_labels(
@@ -355,7 +359,7 @@ tipo_Server <- function(id) {
               padding = c(30, 0, 0, 0),
               fontSize = 14
             ),
-          scale = T,
+          scale = TRUE,
           splitNumber = 4,
           nameLocation = "middle",
           axisLabel = list(
@@ -369,7 +373,11 @@ tipo_Server <- function(id) {
           )
         ) %>%
         e_locale("pt-Br") %>%
-        e_grid(show = T,containLabel = T,left = "5%") %>%
+        e_grid(show = TRUE,containLabel = T,left = "5%") %>%
+        e_animation(duration = 5000) %>%
+        e_toolbox_feature(feature = "saveAsImage") %>%
+        e_toolbox_feature(feature = "dataZoom") %>%
+        e_toolbox_feature(feature = "dataView") %>%
         e_flip_coords()
     })
     
@@ -409,12 +417,12 @@ tipo_Server <- function(id) {
         e_charts(x = categoria) %>%
         e_bar(
           serie = valor,
-          color = "#e94117",
+          color = "blue",
           name = "Quantidade",
           legend = F,
           symbol = "roundRect",
           symbolSize = 6,
-          legendHoverLink = T,
+          legendHoverLink = TRUE,
           itemStyle = list(barBorderRadius = 3)
         ) %>%
         e_labels(
@@ -436,7 +444,7 @@ tipo_Server <- function(id) {
               padding = c(30, 0, 0, 0),
               fontSize = 14
             ),
-          scale = T,
+          scale = TRUE,
           splitNumber = 8,
           nameLocation = "middle",
           axisLabel = list(
@@ -451,6 +459,10 @@ tipo_Server <- function(id) {
         ) %>%
         e_locale("pt-Br") %>%
         e_grid(show = T,left = "15%") %>%
+        e_animation(duration = 5000) %>%
+        e_toolbox_feature(feature = "saveAsImage") %>%
+        e_toolbox_feature(feature = "dataZoom") %>%
+        e_toolbox_feature(feature = "dataView") %>%
         e_flip_coords()
     })
     
@@ -490,12 +502,12 @@ tipo_Server <- function(id) {
         e_charts(x = categoria) %>%
         e_bar(
           serie = valor,
-          color = "#e94117",
+          color = "blue",
           name = "Quantidade",
-          legend = F,
+          legend = FALSE,
           symbol = "roundRect",
           symbolSize = 6,
-          legendHoverLink = T,
+          legendHoverLink = TRUE,
           itemStyle = list(barBorderRadius = 3)
         ) %>%
         e_labels(
@@ -517,7 +529,7 @@ tipo_Server <- function(id) {
               padding = c(40, 0, 0, 0),
               fontSize = 14
             ),
-          scale = T,
+          scale = TRUE,
           splitNumber = 8,
           nameLocation = "middle",
           axisLabel = list(
@@ -531,7 +543,11 @@ tipo_Server <- function(id) {
           )
         ) %>%
         e_locale("pt-Br") %>%
-        e_grid(show = T,left = "15%") 
+        e_grid(show = TRUE,left = "15%") %>%
+        e_animation(duration = 5000) %>%
+        e_toolbox_feature(feature = "saveAsImage") %>%
+        e_toolbox_feature(feature = "dataZoom") %>%
+        e_toolbox_feature(feature = "dataView") 
     })
     
     #Nacionalidade do Veículo - Gráfico de Setor----
