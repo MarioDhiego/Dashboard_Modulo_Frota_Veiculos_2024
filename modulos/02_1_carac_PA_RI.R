@@ -23,19 +23,47 @@ loc_ui <- function(id) {
           ) 
         )
       ),
+      #Perfil Pará/R.I----
+      box(
+        title = textOutput(NS(id, "txtgeral")),
+        status = "primary",
+        collapsed = FALSE,
+        headerBorder = TRUE,
+        width = 12,
+        withSpinner(
+          reactableOutput(NS(id,"tab")),
+          type = 8,
+          color = "#007bff",
+          size = 0.8
+        ),
+        footer = 
+          list(
+            div(
+              style = "display: flex; justify-content: space-between;",
+              div(
+                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/DETRAN-PA"),
+                tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
+              ),
+              div(
+                style = "display: flex; justify-content: center; align-items: center;",
+                downset_ui(NS(id, "tabdown"))
+              )
+            )
+          )
+      ),
       fluidRow(
         #Catergoria Veículos----
         box(
           title = textOutput(NS(id, "txtcat")),
           status = "primary",
-          collapsed = F,
-          headerBorder = T,
+          collapsed = FALSE,
+          headerBorder = TRUE,
           width = 6,
           withSpinner(
             echarts4rOutput(NS(id,"catbar"),height = "600px"),
             type = 8,
             color = "#007bff",
-            size = 0.5
+            size = 0.8
           ),
           footer = 
             list(
@@ -55,8 +83,8 @@ loc_ui <- function(id) {
         box(
           title = textOutput(NS(id, "txtcor")),
           status = "primary",
-          collapsed = F,
-          headerBorder = T,
+          collapsed = FALSE,
+          headerBorder = TRUE,
           width = 6,
           withSpinner(
             echarts4rOutput(NS(id,"corbar"),height = "600px"),
@@ -84,12 +112,12 @@ loc_ui <- function(id) {
           status = "primary",
           collapsed = FALSE,
           headerBorder = TRUE,
-          width = 12,
+          width = 6,
           withSpinner(
             echarts4rOutput(NS(id,"combubar"),height = "600px"),
             type = 8,
             color = "#007bff",
-            size = 0.5
+            size = 0.8
           ),
           footer = 
             list(
@@ -110,14 +138,14 @@ loc_ui <- function(id) {
         box(
           title = textOutput(NS(id, "txtesp")),
           status = "primary",
-          collapsed = F,
-          headerBorder = T,
+          collapsed = FALSE,
+          headerBorder = TRUE,
           width = 6,
           withSpinner(
             echarts4rOutput(NS(id,"espbar"),height = "600px"),
             type = 8,
             color = "#007bff",
-            size = 0.5
+            size = 0.8
           ),
           footer = 
             list(
@@ -137,14 +165,14 @@ loc_ui <- function(id) {
         box(
           title = textOutput(NS(id, "txtnac")),
           status = "primary",
-          collapsed = F,
-          headerBorder = T,
+          collapsed = FALSE,
+          headerBorder = TRUE,
           width = 6,
           withSpinner(
             echarts4rOutput(NS(id,"nacpie"),height = "600px"),
             type = 8,
             color = "#007bff",
-            size = 0.5
+            size = 0.8
           ),
           footer = 
             list(
@@ -159,35 +187,8 @@ loc_ui <- function(id) {
                   downset_ui(NS(id, "nacdown"))
                 )
               )
-            )),
-        #Perfil Pará/R.I----
-        box(
-          title = textOutput(NS(id, "txtgeral")),
-          status = "primary",
-          collapsed = F,
-          headerBorder = T,
-          width = 12,
-          withSpinner(
-            reactableOutput(NS(id,"tab")),
-            type = 8,
-            color = "#007bff",
-            size = 0.5
-          ),
-          footer = 
-            list(
-              div(
-                style = "display: flex; justify-content: space-between;",
-                div(
-                  tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/DETRAN-PA"),
-                  tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
-                ),
-                div(
-                  style = "display: flex; justify-content: center; align-items: center;",
-                  downset_ui(NS(id, "tabdown"))
-                )
-              )
-            )
-         )
+            ))
+        #,
       )
   )
 }
@@ -195,6 +196,144 @@ loc_ui <- function(id) {
 # Função do modulo servidor
 loc_Server <- function(id) {
   moduleServer(id, function(input, output, session) {
+    #===============================================================================
+    #Tabelas - Perfil----
+    titulo6 <- renderText({
+      if (input$local == "Pará") {
+        paste0("Estatística Resumo de Veículos Registrados - ",input$local," - ",input$anolocal)
+      }else{
+        paste0("Estatística Resumo de Veículos Registrados - Região de Integração ",input$local," - ",input$anolocal)  
+      }
+    })
+    
+    output$txtgeral <- renderText({
+      titulo6()  
+    })
+    
+    #Download
+    dowtab <- reactive({
+      categoria <-
+        frota %>% 
+        filter(ri == input$local, variavel == "Categoria do veículo", ano == input$anolocal) %>% 
+        group_by(variavel,categoria) %>% summarize( valor = sum(valor,na.rm = TRUE),.groups = 'drop') %>% 
+        mutate(Percentual = (valor / sum(valor, na.rm = TRUE)) * 100) %>%  
+        arrange(desc(valor)) %>%  slice_head(n = 1)
+      
+      cor <-
+        frota %>% 
+        filter(ri == input$local, variavel == "Cor do veículo", ano == input$anolocal) %>%
+        group_by(variavel,categoria) %>% summarize( valor = sum(valor,na.rm = TRUE),.groups = 'drop') %>% 
+        mutate(Percentual = (valor / sum(valor, na.rm = TRUE)) * 100) %>%   
+        arrange(desc(valor)) %>% slice_head(n = 1)
+      
+      combustivel <-
+        frota %>% 
+        filter(ri == input$local,variavel == "Tipo de combustível(s) utilizado(s)", ano == input$anolocal) %>% 
+        group_by(variavel,categoria) %>% summarize( valor = sum(valor,na.rm = TRUE),.groups = 'drop') %>% 
+        mutate(Percentual = (valor / sum(valor, na.rm = TRUE)) * 100) %>% 
+        arrange(desc(valor)) %>%  slice_head(n = 1)
+      
+      especie <-
+        frota %>% 
+        filter(ri == input$local, variavel == "Espécie de Veículo", ano == input$anolocal) %>% 
+        group_by(variavel,categoria) %>% summarize( valor = sum(valor,na.rm = T),.groups = 'drop') %>% 
+        mutate(Percentual = (valor / sum(valor, na.rm = TRUE)) * 100) %>%  
+        arrange(desc(valor)) %>%  slice_head(n = 1)
+      
+      nacionalidade <-
+        frota %>% 
+        filter(ri == input$local, variavel == "Nacionalidade do Veículo", ano == input$anolocal) %>% 
+        group_by(variavel,categoria) %>% summarize( valor = sum(valor,na.rm = TRUE),.groups = 'drop') %>% 
+        mutate(Percentual = (valor / sum(valor, na.rm = TRUE)) * 100) %>%  
+        arrange(desc(valor)) %>%  slice_head(n = 1)
+      
+      df <- rbind(categoria,cor,combustivel,especie,nacionalidade)
+      df <- df %>% mutate(ri = input$local,ano = input$anolocal) %>% 
+        select(ri,variavel,categoria,ano,valor,Percentual)
+    })
+    
+    #Monitora a base filtrada, defini o texto a ser baixado
+    observeEvent(dowtab(),{
+      titulo6()
+      downset_Server("tabdown", dowtab(), titulo6())  
+    })
+    
+    output$tab <- renderReactable({
+      categoria <-
+        frota %>% 
+        filter(ri == input$local, variavel == "Categoria do veículo", ano == input$anolocal) %>% 
+        group_by(variavel,categoria) %>% summarize( valor = sum(valor,na.rm = TRUE),.groups = 'drop') %>% 
+        mutate(Percentual = (valor / sum(valor, na.rm = TRUE)) * 100) %>%  
+        arrange(desc(valor)) %>%  slice_head(n = 1)
+      
+      cor <-
+        frota %>% 
+        filter(ri == input$local, variavel == "Cor do veículo", ano == input$anolocal) %>%
+        group_by(variavel,categoria) %>% summarize( valor = sum(valor,na.rm = TRUE),.groups = 'drop') %>% 
+        mutate(Percentual = (valor / sum(valor, na.rm = TRUE)) * 100) %>%   
+        arrange(desc(valor)) %>% slice_head(n = 1)
+      
+      combustivel <-
+        frota %>% 
+        filter(ri == input$local,variavel == "Tipo de combustível(s) utilizado(s)", ano == input$anolocal) %>% 
+        group_by(variavel,categoria) %>% summarize( valor = sum(valor,na.rm = T),.groups = 'drop') %>% 
+        mutate(Percentual = (valor / sum(valor, na.rm = TRUE)) * 100) %>% 
+        arrange(desc(valor)) %>%  slice_head(n = 1)
+      
+      especie <-
+        frota %>% 
+        filter(ri == input$local, variavel == "Espécie de Veículo", ano == input$anolocal) %>% 
+        group_by(variavel,categoria) %>% summarize( valor = sum(valor,na.rm = TRUE),.groups = 'drop') %>% 
+        mutate(Percentual = (valor / sum(valor, na.rm = TRUE)) * 100) %>%  
+        arrange(desc(valor)) %>%  slice_head(n = 1)
+      
+      nacionalidade <-
+        frota %>% 
+        filter(ri == input$local, variavel == "Nacionalidade do Veículo", ano == input$anolocal) %>% 
+        group_by(variavel,categoria) %>% summarize( valor = sum(valor,na.rm = TRUE),.groups = 'drop') %>% 
+        mutate(Percentual = (valor / sum(valor, na.rm = TRUE)) * 100) %>%  
+        arrange(desc(valor)) %>%  slice_head(n = 1)
+      
+      df <- rbind(categoria,cor,combustivel,especie,nacionalidade)
+      
+      df %>% reactable(
+        defaultPageSize = 10,
+        striped = FALSE,
+        highlight = TRUE,
+        bordered = TRUE,
+        outlined = TRUE,
+        resizable = TRUE,
+        showSortable = TRUE,
+        pagination = FALSE,
+        columns =  list(
+          variavel = colDef(name = "Características"),
+          categoria = colDef(name = "Predominância"),
+          valor = colDef(name = "Quantidade", format = colFormat(separators = TRUE, locales = "pt-BR")),
+          Percentual = colDef(
+            name = "Percentual(%)",
+            format = colFormat(
+              separators = TRUE,
+              locales = "pt-BR",
+              digits = 2
+            )
+          )
+        ),
+        defaultColDef = colDef(
+          na = "-", 
+          footerStyle = list(fontWeight = "bold"),
+          headerStyle = list(background = "#f7f7f8")
+        ),
+        language = reactableLang(
+          noData = "Sem informação",
+          pageInfo = "{rowStart} a {rowEnd} de {rows} linhas",
+          pagePrevious = "Anterior",
+          pageNext = "Próximo",
+          pagePreviousLabel = "Anterior",
+          pageNextLabel = "Proximo"
+        )
+      )
+    })
+
  #Categoria dos Veículos - Gráfico Barras ----   
     #Título
     titulo1 <- renderText({
@@ -254,7 +393,7 @@ loc_Server <- function(id) {
           )
         ) %>%
         e_y_axis(
-          name = "Frequência",
+          name = "Quantidade",
           nameTextStyle =
             list(
               fontWeight = "bold",
@@ -287,10 +426,10 @@ loc_Server <- function(id) {
     #Título
     titulo2 <- renderText({
       if (input$local == "Pará") {
-      paste0("Principais Cores dos Veículos Licenciados - ",input$local," - ",input$anolocal)
+      paste0("Principais Cores dos Veículos Registrados - ",input$local," - ",input$anolocal)
         
       }else{
-      paste0("Principais Cores dos Veículos Licenciados Região de Integração - ",input$local," - ",input$anolocal)  
+      paste0("Principais Cores dos Veículos Registrados Região de Integração - ",input$local," - ",input$anolocal)  
       }
     })
     
@@ -324,7 +463,7 @@ loc_Server <- function(id) {
           serie = valor,
           color = "blue",
           name = "Quantidade",
-          legend = F,
+          legend = FALSE,
           symbol = "roundRect",
           symbolSize = 6,
           legendHoverLink = TRUE,
@@ -342,7 +481,7 @@ loc_Server <- function(id) {
           )
         ) %>%
         e_y_axis(
-          name = "Frequência",
+          name = "Quantidade",
           nameTextStyle =
             list(
               fontWeight = "bold",
@@ -375,10 +514,10 @@ loc_Server <- function(id) {
     #Título
     titulo3 <- renderText({
       if (input$local == "Pará") {
-      paste0("Tipo de Combustível utilizado pelos Veículos Licenciados - ",input$local," - ",input$anolocal)
+      paste0("Tipo de Combustível utilizado pelos Veículos Registrados - ",input$local," - ",input$anolocal)
         
       }else{
-        paste0("Tipo de Combustível utilizado pelos Veículos Licenciados - Região de Integração ",input$local," - ",input$anolocal)  
+        paste0("Tipo de Combustível utilizado pelos Veículos Registrados - Região de Integração ",input$local," - ",input$anolocal)  
       }
     })
 
@@ -462,9 +601,9 @@ loc_Server <- function(id) {
     #Título
     titulo4 <- renderText({
       if (input$local == "Pará") {
-      paste0("Espécie dos Veículos Licenciados - ",input$local," - ",input$anolocal)
+      paste0("Espécie dos Veículos Registrados - ",input$local," - ",input$anolocal)
       }else{
-        paste0("Espécie dos Veículos Licenciados - Região de Integração ",input$local," - ",input$anolocal)  
+        paste0("Espécie dos Veículos Registrados - Região de Integração ",input$local," - ",input$anolocal)  
       }
     })
     
@@ -490,17 +629,17 @@ output$txtesp <- renderText({
     output$espbar <- renderEcharts4r({
       frota %>% filter( ri == input$local, ano == input$anolocal, variavel == "Espécie de Veículo") %>% 
         group_by(ri,categoria) %>% 
-        summarize( valor = sum(valor,na.rm = T),.groups = 'drop') %>% 
+        summarize( valor = sum(valor,na.rm = TRUE),.groups = 'drop') %>% 
         arrange(valor) %>% 
         e_charts(x = categoria) %>%
         e_bar(
           serie = valor,
           color = "blue",
           name = "Quantidade",
-          legend = F,
+          legend = FALSE,
           symbol = "roundRect",
           symbolSize = 6,
-          legendHoverLink = T,
+          legendHoverLink = TRUE,
           itemStyle = list(barBorderRadius = 3)
         ) %>%
         e_labels(
@@ -522,7 +661,7 @@ output$txtesp <- renderText({
               padding = c(40, 0, 0, 0),
               fontSize = 14
             ),
-          scale = T,
+          scale = TRUE,
           splitNumber = 8,
           nameLocation = "middle",
           axisLabel = list(
@@ -536,7 +675,7 @@ output$txtesp <- renderText({
           )
         ) %>%
         e_locale("pt-Br") %>%
-        e_grid(show = T,left = "15%") %>%
+        e_grid(show = TRUE,left = "15%") %>%
         e_animation(duration = 5000) %>%
         e_toolbox_feature(feature = "saveAsImage") %>%
         e_toolbox_feature(feature = "dataZoom") %>%
@@ -547,11 +686,10 @@ output$txtesp <- renderText({
     #Título
     titulo5 <- renderText({
       if (input$local == "Pará") {
-        paste0("Nacionalidade dos Veículos Licenciados - ",input$local," - ",input$anolocal)  
+        paste0("Nacionalidade dos Veículos Registrados - ",input$local," - ",input$anolocal)  
       }else{
-        paste0("Nacionalidade dos Veículos Licenciados Região de Integração - ",input$local," - ",input$anolocal)  
+        paste0("Nacionalidade dos Veículos Registrados Região de Integração - ",input$local," - ",input$anolocal)  
       }
-      
     })
     
     output$txtnac <- renderText({
@@ -565,22 +703,19 @@ output$txtesp <- renderText({
         arrange(valor) %>% mutate(ano = input$anolocal, percentual = (valor/sum(valor,na.rm = T))*100) %>% 
         select(ri,categoria,ano,valor,percentual)
     })
-    
     #Monitora a base filtrada, defini o texto a ser baixado
     observeEvent(downac(),{
       titulo5()
       downset_Server("nacdown", downac(), titulo5())  
     })
-
-
     output$nacpie <- renderEcharts4r({
       frota %>% filter( ri == input$local, ano == input$anolocal, variavel == "Nacionalidade do Veículo") %>% 
-        group_by(ri,categoria) %>% summarize( valor = sum(valor,na.rm = T),.groups = 'drop') %>% 
-        arrange(valor) %>% mutate(percentual = (valor/sum(valor,na.rm = T))*100) %>% 
+        group_by(ri,categoria) %>% summarize( valor = sum(valor,na.rm = TRUE),.groups = 'drop') %>% 
+        arrange(valor) %>% mutate(percentual = (valor/sum(valor,na.rm = TRUE))*100) %>% 
         e_charts(x = categoria) %>%
         e_pie(
           serie = percentual,
-          selectedMode = T,
+          selectedMode = TRUE,
           cursor = "pointer"
         ) %>% 
         e_tooltip(
@@ -593,157 +728,16 @@ output$txtesp <- renderText({
     ")
         )
     })
-    
-    
-    #Tabelas - Perfil----
-    titulo6 <- renderText({
-      if (input$local == "Pará") {
-      paste0("Perfil de Veículos Licenciados - ",input$local," - ",input$anolocal)
-      }else{
-        paste0("Perfil de Veículos Licenciados - Região de Integração ",input$local," - ",input$anolocal)  
-      }
-  
-    })
-
-    output$txtgeral <- renderText({
-      titulo6()  
-    })
-    
-    #Download
-    dowtab <- reactive({
-     categoria <-
-        frota %>% 
-        filter(ri == input$local, variavel == "Categoria do veículo", ano == input$anolocal) %>% 
-        group_by(variavel,categoria) %>% summarize( valor = sum(valor,na.rm = T),.groups = 'drop') %>% 
-        mutate(Percentual = (valor / sum(valor, na.rm = TRUE)) * 100) %>%  
-        arrange(desc(valor)) %>%  slice_head(n = 1)
-      
-      cor <-
-        frota %>% 
-        filter(ri == input$local, variavel == "Cor do veículo", ano == input$anolocal) %>%
-        group_by(variavel,categoria) %>% summarize( valor = sum(valor,na.rm = T),.groups = 'drop') %>% 
-        mutate(Percentual = (valor / sum(valor, na.rm = TRUE)) * 100) %>%   
-        arrange(desc(valor)) %>% slice_head(n = 1)
-      
-      combustivel <-
-        frota %>% 
-        filter(ri == input$local,variavel == "Tipo de combustível(s) utilizado(s)", ano == input$anolocal) %>% 
-        group_by(variavel,categoria) %>% summarize( valor = sum(valor,na.rm = T),.groups = 'drop') %>% 
-        mutate(Percentual = (valor / sum(valor, na.rm = TRUE)) * 100) %>% 
-        arrange(desc(valor)) %>%  slice_head(n = 1)
-      
-      especie <-
-        frota %>% 
-        filter(ri == input$local, variavel == "Espécie de Veículo", ano == input$anolocal) %>% 
-        group_by(variavel,categoria) %>% summarize( valor = sum(valor,na.rm = T),.groups = 'drop') %>% 
-        mutate(Percentual = (valor / sum(valor, na.rm = TRUE)) * 100) %>%  
-        arrange(desc(valor)) %>%  slice_head(n = 1)
-      
-      nacionalidade <-
-        frota %>% 
-        filter(ri == input$local, variavel == "Nacionalidade do Veículo", ano == input$anolocal) %>% 
-        group_by(variavel,categoria) %>% summarize( valor = sum(valor,na.rm = T),.groups = 'drop') %>% 
-        mutate(Percentual = (valor / sum(valor, na.rm = TRUE)) * 100) %>%  
-        arrange(desc(valor)) %>%  slice_head(n = 1)
-      
-      df <- rbind(categoria,cor,combustivel,especie,nacionalidade)
-      df <- df %>% mutate(ri = input$local,ano = input$anolocal) %>% 
-      select(ri,variavel,categoria,ano,valor,Percentual)
-    })
-    
-    #Monitora a base filtrada, defini o texto a ser baixado
-    observeEvent(dowtab(),{
-      titulo6()
-      downset_Server("tabdown", dowtab(), titulo6())  
-    })
-    
-    output$tab <- renderReactable({
-      categoria <-
-        frota %>% 
-        filter(ri == input$local, variavel == "Categoria do veículo", ano == input$anolocal) %>% 
-        group_by(variavel,categoria) %>% summarize( valor = sum(valor,na.rm = T),.groups = 'drop') %>% 
-        mutate(Percentual = (valor / sum(valor, na.rm = TRUE)) * 100) %>%  
-        arrange(desc(valor)) %>%  slice_head(n = 1)
-      
-      cor <-
-        frota %>% 
-        filter(ri == input$local, variavel == "Cor do veículo", ano == input$anolocal) %>%
-        group_by(variavel,categoria) %>% summarize( valor = sum(valor,na.rm = T),.groups = 'drop') %>% 
-        mutate(Percentual = (valor / sum(valor, na.rm = TRUE)) * 100) %>%   
-        arrange(desc(valor)) %>% slice_head(n = 1)
-      
-      combustivel <-
-        frota %>% 
-        filter(ri == input$local,variavel == "Tipo de combustível(s) utilizado(s)", ano == input$anolocal) %>% 
-        group_by(variavel,categoria) %>% summarize( valor = sum(valor,na.rm = T),.groups = 'drop') %>% 
-        mutate(Percentual = (valor / sum(valor, na.rm = TRUE)) * 100) %>% 
-        arrange(desc(valor)) %>%  slice_head(n = 1)
-      
-      especie <-
-        frota %>% 
-        filter(ri == input$local, variavel == "Espécie de Veículo", ano == input$anolocal) %>% 
-        group_by(variavel,categoria) %>% summarize( valor = sum(valor,na.rm = T),.groups = 'drop') %>% 
-        mutate(Percentual = (valor / sum(valor, na.rm = TRUE)) * 100) %>%  
-        arrange(desc(valor)) %>%  slice_head(n = 1)
-      
-      nacionalidade <-
-        frota %>% 
-        filter(ri == input$local, variavel == "Nacionalidade do Veículo", ano == input$anolocal) %>% 
-        group_by(variavel,categoria) %>% summarize( valor = sum(valor,na.rm = T),.groups = 'drop') %>% 
-        mutate(Percentual = (valor / sum(valor, na.rm = TRUE)) * 100) %>%  
-        arrange(desc(valor)) %>%  slice_head(n = 1)
-      
-      df <- rbind(categoria,cor,combustivel,especie,nacionalidade)
-      
-      df %>% reactable(
-        defaultPageSize = 10,
-        striped = FALSE,
-        highlight = TRUE,
-        bordered = TRUE,
-        outlined = TRUE,
-        resizable = TRUE,
-        showSortable = TRUE,
-        pagination = F,
-        columns =  list(
-          variavel = colDef(name = "Características"),
-          categoria = colDef(name = "Predominância"),
-        valor = colDef(name = "Quantidade", format = colFormat(separators = T, locales = "pt-BR")),
-          Percentual = colDef(
-            name = "Percentual(%)",
-            format = colFormat(
-              separators = T,
-              locales = "pt-BR",
-              digits = 2
-            )
-          )
-        ),
-        defaultColDef = colDef(
-          na = "-", 
-          footerStyle = list(fontWeight = "bold"),
-          headerStyle = list(background = "#f7f7f8")
-        ),
-        language = reactableLang(
-          noData = "Sem informação",
-          pageInfo = "{rowStart} a {rowEnd} de {rows} linhas",
-          pagePrevious = "Anterior",
-          pageNext = "Próximo",
-          pagePreviousLabel = "Anterior",
-          pageNextLabel = "Proximo"
-        )
-      )
-    })
-    
-
   })
 }
 # Play do Módulo
-# ui = dashboardPage(
-#   header = dashboardHeader(),
-#            sidebar = dashboardSidebar(),
-#            body = dashboardBody(fluidPage(loc_ui("loc"))))
-# 
-# server <- function(input, output) {
-#   loc_Server("loc")
-# }
-# 
-# shinyApp(ui, server)
+ ui = dashboardPage(
+   header = dashboardHeader(),
+            sidebar = dashboardSidebar(),
+            body = dashboardBody(fluidPage(loc_ui("loc"))))
+ 
+ server <- function(input, output) {
+   loc_Server("loc")
+ }
+ 
+ shinyApp(ui, server)

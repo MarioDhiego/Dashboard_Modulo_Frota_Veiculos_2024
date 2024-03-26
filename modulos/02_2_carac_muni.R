@@ -23,6 +23,36 @@ muni_ui <- function(id) {
         ) 
       )
     ),
+    
+    #Perfil Pará/R.I----
+    box(
+      title = textOutput(NS(id, "txtgeral")),
+      status = "primary",
+      collapsed = FALSE,
+      headerBorder = TRUE,
+      width = 12,
+      withSpinner(
+        reactableOutput(NS(id,"tab")),
+        type = 8,
+        color = "#007bff",
+        size = 0.8
+      ),
+      footer = 
+        list(
+          div(
+            style = "display: flex; justify-content: space-between;",
+            div(
+              tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/DETRAN-PA"),
+              tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
+            ),
+            div(
+              style = "display: flex; justify-content: center; align-items: center;",
+              downset_ui(NS(id, "tabdown"))
+            )
+          )
+        )
+    ),
+
     fluidRow(
       #Catergoria Veículos----
       box(
@@ -42,7 +72,7 @@ muni_ui <- function(id) {
             div(
               style = "display: flex; justify-content: space-between;",
               div(
-                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAN/DTI/Detran-PA"),
+                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/DETRAN-PA"),
                 tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
               ),
               div(
@@ -69,8 +99,8 @@ muni_ui <- function(id) {
             div(
               style = "display: flex; justify-content: space-between;",
               div(
-                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAN/DTI/Detran-PA"),
-                tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/Detran-PA")
+                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/DETRAN-PA"),
+                tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
               ),
               div(
                 style = "display: flex; justify-content: center; align-items: center;",
@@ -84,7 +114,7 @@ muni_ui <- function(id) {
         status = "primary",
         collapsed = FALSE,
         headerBorder = TRUE,
-        width = 12,
+        width = 6,
         withSpinner(
           echarts4rOutput(NS(id,"combubar"),height = "600px"),
           type = 8,
@@ -96,7 +126,7 @@ muni_ui <- function(id) {
             div(
               style = "display: flex; justify-content: space-between;",
               div(
-                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAN/DTI/Detran-PA"),
+                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/DETRAN-PA"),
                 tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
               ),
               div(
@@ -110,8 +140,8 @@ muni_ui <- function(id) {
       box(
         title = textOutput(NS(id, "txtesp")),
         status = "primary",
-        collapsed = F,
-        headerBorder = T,
+        collapsed = FALSE,
+        headerBorder = TRUE,
         width = 6,
         withSpinner(
           echarts4rOutput(NS(id,"espbar"),height = "600px"),
@@ -124,7 +154,7 @@ muni_ui <- function(id) {
             div(
               style = "display: flex; justify-content: space-between;",
               div(
-                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAN/DTI/DETRAN-PA"),
+                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/DETRAN-PA"),
                 tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
               ),
               div(
@@ -137,8 +167,8 @@ muni_ui <- function(id) {
       box(
         title = textOutput(NS(id, "txtnac")),
         status = "primary",
-        collapsed = F,
-        headerBorder = T,
+        collapsed = FALSE,
+        headerBorder = TRUE,
         width = 6,
         withSpinner(
           echarts4rOutput(NS(id,"nacpie"),height = "600px"),
@@ -151,7 +181,7 @@ muni_ui <- function(id) {
             div(
               style = "display: flex; justify-content: space-between;",
               div(
-                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAN/DTI/DETRAN-PA"),
+                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/DETRAN-PA"),
                 tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
               ),
               div(
@@ -159,35 +189,14 @@ muni_ui <- function(id) {
                 downset_ui(NS(id, "nacdown"))
               )
             )
-          )),
-      #Perfil Pará/R.I----
-      box(
-        title = textOutput(NS(id, "txtgeral")),
-        status = "primary",
-        collapsed = F,
-        headerBorder = T,
-        width = 12,
-        withSpinner(
-          reactableOutput(NS(id,"tab")),
-          type = 8,
-          color = "#007bff",
-          size = 0.8
-        ),
-        footer = 
-          list(
-            div(
-              style = "display: flex; justify-content: space-between;",
-              div(
-                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAN/DTI/DETRAN-PA"),
-                tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
-              ),
-              div(
-                style = "display: flex; justify-content: center; align-items: center;",
-                downset_ui(NS(id, "tabdown"))
-              )
-            )
-          )
-      )
+          ))
+      #,
+     
+      
+      
+      
+      
+      
     )
   )
 }
@@ -195,10 +204,11 @@ muni_ui <- function(id) {
 # Função do modulo servidor
 muni_Server <- function(id) {
   moduleServer(id, function(input, output, session) {
+    
     #Categoria dos Veículos - Gráfico Barras ----   
     #Título
     titulo1 <- renderText({
-     paste0("Principais Categorias dos Veículos Licenciados - ",input$local," - ",input$anolocal)
+     paste0("Categorias dos Veículos Registrados - ",input$local," - ",input$anolocal)
     })
     
     output$txtcat <- renderText({
@@ -250,7 +260,7 @@ muni_Server <- function(id) {
               padding = c(30, 0, 0, 0),
               fontSize = 14
             ),
-          scale = T,
+          scale = TRUE,
           splitNumber = 4,
           nameLocation = "middle",
           axisLabel = list(
@@ -264,8 +274,8 @@ muni_Server <- function(id) {
           )
         ) %>%
         e_locale("pt-Br") %>%
-        e_grid(show = T,containLabel = T,left = "5%") %>%
-        e_tooltip(trigger = "item")%>%
+        e_grid(show = TRUE,containLabel = TRUE,left = "5%") %>%
+        e_tooltip(trigger = "item") %>%
         e_animation(duration = 5000) %>%
         e_toolbox_feature(feature = "saveAsImage") %>%
         e_toolbox_feature(feature = "dataZoom") %>%
@@ -275,7 +285,7 @@ muni_Server <- function(id) {
     #Cor dos Veículos - Gráfico de Barras----
     #Título
     titulo2 <- renderText({
-      paste0("Principais Cores dos Veículos Licenciados - ",input$local," - ",input$anolocal)
+      paste0("Principais Cores dos Veículos Registrados - ",input$local," - ",input$anolocal)
 
     })
     
@@ -353,7 +363,7 @@ muni_Server <- function(id) {
     #Tipo de Combustível - Gráfico de Barras----
     #Título
     titulo3 <- renderText({
-    paste0("Tipo de Combustível utilizado pelos Veículos Licenciados - ",input$local," - ",input$anolocal)
+    paste0("Tipo de Combustível utilizado pelos Veículos Registrados - ",input$local," - ",input$anolocal)
     })
     
     output$txtcombu <- renderText({
@@ -430,7 +440,7 @@ muni_Server <- function(id) {
     #Espécie do Veículo - Gráfico de Barras----
     #Título
     titulo4 <- renderText({
-    paste0("Espécie dos Veículos Licenciados - ",input$local," - ",input$anolocal)
+    paste0("Espécie dos Veículos Registrados - ",input$local," - ",input$anolocal)
       
     })
     
@@ -497,7 +507,7 @@ muni_Server <- function(id) {
           )
         ) %>%
         e_locale("pt-Br") %>%
-        e_grid(show = TRUE,left = "15%") 
+        e_grid(show = TRUE,left = "15%") %>%
         e_animation(duration = 5000) %>%
         e_toolbox_feature(feature = "saveAsImage") %>%
         e_toolbox_feature(feature = "dataZoom") %>%
@@ -507,7 +517,7 @@ muni_Server <- function(id) {
     #Nacionalidade do Veículo - Gráfico de Setor----
     #Título
     titulo5 <- renderText({
-    paste0("Nacionalidade dos Veículos Licenciados - ",input$local," - ",input$anolocal)  
+    paste0("Nacionalidade dos Veículos Registrados - ",input$local," - ",input$anolocal)  
       
     })
     
@@ -556,7 +566,7 @@ muni_Server <- function(id) {
     
     #Tabelas - Perfil----
     titulo6 <- renderText({
-      paste0("Perfil de Veículos Licenciados - ",input$local," - ",input$anolocal)
+      paste0("Perfil de Veículos Registrados - ",input$local," - ",input$anolocal)
       
     })
     
@@ -678,18 +688,18 @@ muni_Server <- function(id) {
         )
       )
     })
-    
-    
   })
+  
+  
 }
 # Play do Módulo
-# ui = dashboardPage(
-#   header = dashboardHeader(),
-#   sidebar = dashboardSidebar(),
-#   body = dashboardBody(fluidPage(muni_ui("total"))))
-# 
-# server <- function(input, output) {
-#   muni_Server("total")
-# }
-# 
-# shinyApp(ui, server)
+ ui = dashboardPage(
+   header = dashboardHeader(),
+   sidebar = dashboardSidebar(),
+   body = dashboardBody(fluidPage(muni_ui("total"))))
+ 
+ server <- function(input, output) {
+   muni_Server("total")
+ }
+ 
+ shinyApp(ui, server)

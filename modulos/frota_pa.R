@@ -1,4 +1,3 @@
-# Funções de módulo de Infraestrutura - Estadual
 # Função de UI
 frotapa_ui <- function(id) {
   fluidPage(
@@ -18,7 +17,7 @@ frotapa_ui <- function(id) {
                 2,
                 selectInput(
                   inputId = NS(id, "cat"),
-                  label = "TIPO DE FROTA/TOTAL",
+                  label = "TIPO DE FROTA ou TOTAL",
                   choices = unique(frota2[["categoria"]]),
                   width = "200px"
                 )
@@ -28,7 +27,7 @@ frotapa_ui <- function(id) {
                 selectInput(
                   inputId = NS(id, "ano"),
                   label = "ANO",
-                  choices = sort(unique(frota2[["ano"]]), decreasing = T),
+                  choices = sort(unique(frota2[["ano"]]), decreasing = TRUE),
                   width = "100px"
                 )
               )
@@ -52,8 +51,8 @@ frotapa_ui <- function(id) {
                     div(
                       style = "display: flex; justify-content: space-between;",
                       div(
-                        tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/Detran-PA"),
-                        tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/Detran-PA")
+                        tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/DETRAN-PA"),
+                        tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
                       ),
                       div(
                         style = "display: flex; justify-content: center; align-items: center;"
@@ -79,8 +78,8 @@ frotapa_ui <- function(id) {
                     div(
                       style = "display: flex; justify-content: space-between;",
                       div(
-                        tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAN/DTI/Detran-PA"),
-                        tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/Detran-PA")
+                        tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAN/DTI/DETRAN-PA"),
+                        tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
                       ),
                       div(
                         style = "display: flex; justify-content: center; align-items: center;",
@@ -109,8 +108,8 @@ frotapa_ui <- function(id) {
             div(
               style = "display: flex; justify-content: space-between;",
               div(
-                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/Detran-PA"),
-                tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/Detran-PA")
+                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/DETRAN-PA"),
+                tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
               ),
               div(
                 style = "display: flex; justify-content: center; align-items: center;",
@@ -243,14 +242,14 @@ frotapa_Server <- function(id) {
     texto2 <- reactive({
       if (input$ri == "Pará") {
         paste0(
-          "Quantidade de Veículos: Licenciado e Não licenciado Município ",
+          "Distribuição de Veículos: Licenciado e Não Licenciado Município ",
           input$ri,
           " - ",
           input$ano
         )
       } else{
         paste0(
-          "Quantidade de Veículos: Licenciado e Não licenciado Município, Região de Integração ",
+          "Distribuição de Veículos: Licenciado e Não Licenciado Município, Região de Integração ",
           input$ri,
           " - ",
           input$ano
@@ -311,7 +310,6 @@ frotapa_Server <- function(id) {
           pivot_wider(names_from = categoria, values_from = valor)
         x <- x %>% filter(ri == input$ri)
       }
-      
       x %>% reactable(
         defaultPageSize = 10,
         striped = FALSE,
@@ -322,11 +320,11 @@ frotapa_Server <- function(id) {
         showSortable = TRUE,
         pagination = FALSE,
         columns = list(
-          ri = colDef(name = "Região de Integração"),
-          municipio = colDef(name = "Municípios", sticky = "left"),
-          Frota = colDef(name = "Frota", format = colFormat(separators = TRUE)),
-          Licenciados = colDef(name = "Licenciados", format = colFormat(separators = TRUE)),
-          `Não Licenciados` = colDef(name = "Não Licenciados", format = colFormat(separators = TRUE))
+          ri = colDef(name = "REGIÃO DE INTEGRAÇÃO"),
+          municipio = colDef(name = "MUNICÍPIOS", sticky = "left"),
+          Frota = colDef(name = "FROTA GERAL", format = colFormat(separators = TRUE)),
+          Licenciados = colDef(name = "LICENCIADOS", format = colFormat(separators = TRUE)),
+          `Não Licenciados` = colDef(name = "NÃO LICENCIADOS", format = colFormat(separators = TRUE))
         ),
         defaultColDef = colDef(
           footerStyle = list(fontWeight = "bold"),
@@ -375,19 +373,19 @@ frotapa_Server <- function(id) {
         e_chart(x = ano) %>%
         e_line(
           serie = Licenciados,
-          name = "Licenciados",
-          legend = T,
+          name = "LICENCIADOS",
+          legend = TRUE,
           symbol = "roundRect",
           symbolSize = 8,
           legendHoverLink = TRUE,
         ) %>%
         e_line(
           serie = `Não Licenciados`,
-          name = "Não Licenciados",
-          legend = T,
+          name = "NÃO LICENCIADOS",
+          legend = TRUE,
           symbol = "roundRect",
           symbolSize = 8,
-          legendHoverLink = T,
+          legendHoverLink = TRUE,
           itemStyle = list(barBorderRadius = 5)
         ) %>%
         e_line(
@@ -433,7 +431,6 @@ frotapa_Server <- function(id) {
         e_toolbox_feature(feature = "dataZoom") %>%
         e_toolbox_feature(feature = "dataView") 
     })
-
   })
 }
 

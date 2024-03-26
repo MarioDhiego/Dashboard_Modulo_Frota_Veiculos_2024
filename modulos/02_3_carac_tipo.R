@@ -2,6 +2,7 @@
 # Função de UI
 tipo_ui <- function(id) {
   fluidPage(
+    
     #Controle----
     panel(
       fluidRow(
@@ -30,6 +31,35 @@ tipo_ui <- function(id) {
         ) 
       )
     ),
+    
+    #Perfil Pará/R.I----
+    box(
+      title = textOutput(NS(id, "txtgeral")),
+      status = "primary",
+      collapsed = FALSE,
+      headerBorder = TRUE,
+      width = 12,
+      withSpinner(
+        reactableOutput(NS(id,"tab")),
+        type = 8,
+        color = "#007bff",
+        size = 0.8
+      ),
+      footer = 
+        list(
+          div(
+            style = "display: flex; justify-content: space-between;",
+            div(
+              tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/DETRAN-PA"),
+              tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
+            ),
+            div(
+              style = "display: flex; justify-content: center; align-items: center;",
+              downset_ui(NS(id, "tabdown"))
+            )
+          )
+        )
+    ),
     fluidRow(
       #Catergoria Veículos----
       box(
@@ -49,7 +79,7 @@ tipo_ui <- function(id) {
             div(
               style = "display: flex; justify-content: space-between;",
               div(
-                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAN/DTI/DETRAN-PA"),
+                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/DETRAN-PA"),
                 tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
               ),
               div(
@@ -76,8 +106,8 @@ tipo_ui <- function(id) {
             div(
               style = "display: flex; justify-content: space-between;",
               div(
-                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAN/DTI/Detran-PA"),
-                tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/Detran-PA")
+                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/DETRAN-PA"),
+                tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
               ),
               div(
                 style = "display: flex; justify-content: center; align-items: center;",
@@ -103,8 +133,8 @@ tipo_ui <- function(id) {
             div(
               style = "display: flex; justify-content: space-between;",
               div(
-                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAN/DTI/Detran-PA"),
-                tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/Detran-PA")
+                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/DETRAN-PA"),
+                tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
               ),
               div(
                 style = "display: flex; justify-content: center; align-items: center;",
@@ -131,7 +161,7 @@ tipo_ui <- function(id) {
             div(
               style = "display: flex; justify-content: space-between;",
               div(
-                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAN/DTI/DETRAN-PA"),
+                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/DETRAN-PA"),
                 tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
               ),
               div(
@@ -158,7 +188,7 @@ tipo_ui <- function(id) {
             div(
               style = "display: flex; justify-content: space-between;",
               div(
-                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAN/DTI/DETRAN-PA"),
+                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/DETRAN-PA"),
                 tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
               ),
               div(
@@ -166,35 +196,7 @@ tipo_ui <- function(id) {
                 downset_ui(NS(id, "nacdown"))
               )
             )
-          )),
-      #Perfil Pará/R.I----
-      box(
-        title = textOutput(NS(id, "txtgeral")),
-        status = "primary",
-        collapsed = FALSE,
-        headerBorder = TRUE,
-        width = 12,
-        withSpinner(
-          reactableOutput(NS(id,"tab")),
-          type = 8,
-          color = "#007bff",
-          size = 0.8
-        ),
-        footer = 
-          list(
-            div(
-              style = "display: flex; justify-content: space-between;",
-              div(
-                tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAN/DTI/Detran-PA"),
-                tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
-              ),
-              div(
-                style = "display: flex; justify-content: center; align-items: center;",
-                downset_ui(NS(id, "tabdown"))
-              )
-            )
-          )
-      )
+          ))
     )
   )
 }
@@ -209,14 +211,14 @@ tipo_Server <- function(id) {
     })
     #Sub temática
     observeEvent(anotipo(), {
-      choices <- sort(unique(anotipo()[["ano"]]), decreasing = T)
+      choices <- sort(unique(anotipo()[["ano"]]), decreasing = TRUE)
       updateSelectInput(inputId = "ano", choices = choices,  session) 
     })
     #Categoria dos Veículos - Gráfico Barras ----   
     #Título
     titulo1 <- renderText({
     req(input$ano)
-    paste0("Principais Categorias dos Veículos Licenciados do tipo ",input$tipo," - ",input$ano)
+    paste0("Categorias dos Veículos Registrados do tipo ",input$tipo," - ",input$ano)
     })
     
     output$txtcat <- renderText({
@@ -268,7 +270,7 @@ tipo_Server <- function(id) {
           )
         ) %>%
         e_y_axis(
-          name = "Frequência",
+          name = "Quantidade",
           nameTextStyle =
             list(
               fontWeight = "bold",
@@ -300,7 +302,7 @@ tipo_Server <- function(id) {
     #Título
     titulo2 <- renderText({
     req(input$ano)
-    paste0("Principais Cores dos Veículos Licenciados do tipo ",input$tipo," - ",input$ano)
+    paste0("Cores dos Veículos Registrados do tipo ",input$tipo," - ",input$ano)
     })
     
     output$txtcor <- renderText({
@@ -385,7 +387,7 @@ tipo_Server <- function(id) {
     #Título
     titulo3 <- renderText({
     req(input$ano)
-    paste0("Tipo de Combustível utilizado pelos Veículos Licenciados do tipo ",input$tipo," - ",input$ano)
+    paste0("Combustível utilizado pelos Veículos Registrados do tipo ",input$tipo," - ",input$ano)
     })
     
     output$txtcombu <- renderText({
@@ -603,7 +605,7 @@ tipo_Server <- function(id) {
     #Tabelas - Perfil----
     titulo6 <- renderText({
     req(input$ano)
-    paste0("Perfil de Veículos Licenciados do tipo ",input$tipo," - ",input$ano)
+    paste0("Estatística Resumo dos Veículos Registrados do tipo ",input$tipo," - ",input$ano)
     })
     
     output$txtgeral <- renderText({
@@ -739,13 +741,13 @@ tipo_Server <- function(id) {
   })
 }
 # Play do Módulo
-# ui = dashboardPage(
-#   header = dashboardHeader(),
-#   sidebar = dashboardSidebar(),
-#   body = dashboardBody(fluidPage(tipo_ui("tipo"))))
-# 
-# server <- function(input, output) {
-#   tipo_Server("tipo")
-# }
-# 
-# shinyApp(ui, server)
+ ui = dashboardPage(
+   header = dashboardHeader(),
+   sidebar = dashboardSidebar(),
+   body = dashboardBody(fluidPage(tipo_ui("tipo"))))
+ 
+ server <- function(input, output) {
+   tipo_Server("tipo")
+ }
+ 
+ shinyApp(ui, server)

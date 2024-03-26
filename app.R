@@ -20,41 +20,50 @@ source('global.R')
 shinyApp(
   ui = dashboardPage(
     header = dashboardHeader(
-      tags$li(class = "dropdown",
-              a(href = "https://www.facebook.com/detranPARA",
-                class = "fa fa-facebook",
-                target = "_blank"
-              )),
-      tags$li(class = "dropdown",
-              a(href = "https://www.instagram.com/detranpa_",
-                class = "fa fa-instagram",
-                target = "_blank"
-              )
-      ),
-      tags$li(class = "dropdown",
-              a(href = "https://twitter.com/DETRAN_PA",
-                class = "fa fa-twitter",
-                target = "_blank"
-              )),
-      tags$li(
-        class="dropdown",
-        tags$a(href="https://github.com/MarioDhiego",
-               icon("github"), "Suporte", target = "_blank")),
+      
+      #tags$li(class = "dropdown",
+      #        a(href = "https://www.facebook.com/detranPARA",
+      #          class = "fa fa-facebook",
+      #          target = "_blank"
+      #        )),
+      #tags$li(class = "dropdown",
+      #        a(href = "https://www.instagram.com/detranpa_",
+      #          class = "fa fa-instagram",
+      #          target = "_blank"
+      #        )
+      #),
+      #tags$li(class = "dropdown",
+      #        a(href = "https://twitter.com/DETRAN_PA",
+      #          class = "fa fa-twitter",
+      #          target = "_blank"
+      #        )),
+      #tags$li(
+      #  class="dropdown",
+      #  tags$a(href="https://github.com/MarioDhiego",
+      #         icon("github"), "Suporte", target = "_blank")),
+      
       title = dashboardBrand(
         title = tags$strong("Detran - PA"),
         href = "https://www.detran.pa.gov.br/index_.php",
         image = "detran1.jpeg",
+        #width = 230, 
+        #heigth = 100,
         color ="gray",
       )
     ), 
 # dbHeader,
 skin = "black",
 scrollToTop = TRUE,
+fullscreen = TRUE,
+help = TRUE,
 options = list(sidebarExpandOnHover = TRUE),
 sidebar = dashboardSidebar(
+  disable = FALSE,
+  width = NULL,
   skin = "dark",
-  minified = TRUE,
+  status = "primary",
   collapsed = FALSE,
+  minified = TRUE,
   sidebarMenu(
     id = "tabs",
     menuItem("ANUÁRIO", tabName="anuario", icon=icon("address-card"),
@@ -63,10 +72,9 @@ sidebar = dashboardSidebar(
     menuItem("GLOSSÁRIO", tabName="conceitos", icon=icon("book")),
     menuItem("Visão Geral", tabName = "visao_geral",icon = icon("display")),
     menuItem("Perfil dos Veículos", tabName = "carac_veiculo",icon = icon("magnifying-glass"),
-             menuSubItem("Pará e R.I's",tabName = "carac_loc",icon = icon("map")),
+             menuSubItem("Pará e R.I's",tabName = "carac_loc",icon = icon("globe")),
              menuSubItem("Municípios",tabName = "carac_muni",icon = icon("location-dot")),
-             menuSubItem("Por Tipo de Veículo",tabName = "carac_tipo",icon = icon("car"))
-                 ),
+             menuSubItem("Por Tipo de Veículo",tabName = "carac_tipo",icon = icon("car"))),
     menuItem("Frota",tabName = "frota",icon = icon("car"),
              menuSubItem("Pará",tabName = "pa"),
              menuSubItem("Municípios",tabName = "muni")),
@@ -191,11 +199,6 @@ body = dashboardBody(
                )
              )
            )),
-  
-
-                       
-                       
-                       
   tabPanel("SOFTWARE'S", icon=icon("computer"),
            fluidRow(
              column(width=4,
@@ -417,11 +420,253 @@ Fiscalização em nível Estadual."
               )
             )
           )),
+  tabItem(tabName = "conceitos",
+          tabBox(id = "t3", width = 12,
+                 tabPanel("Documentação Veicular",
+                          icon = icon("calendar"),
+                          fluidRow(
+                            column(width = 4,
+                                   tags$br(),
+                                   tags$p(style = "text-align:justify;font-si20pt",
+                                          strong("Este item relaciona a Documentação e Registro do Veículo, definidos no Anexo I, do Regulamento do Código de Trânsito Brasileiro e Convenção de Trânsito Viário de Viena, bem como da Organização Mundial de Saúde.")),
+                                   tags$br(),
+                                   tags$p(style = "text-align:justify;font-si20pt",
+                                          strong("1) REGISTRO:  Para transitar em vias públicas todo veículo automotor, deve ser registrado no Departamento de Trânsito do estados e Distrito Ferederal ou Circunscrição Regional de Trânsito (CIRETRAN) com jurisdição sob o domicílio ou residência do seu proprietátio, quando receberá o Certificado de Registro de Veículo (CRV), devendo possuir e estarem funcionado os equipamentos obrigatórios.")),
+                                   tags$br(),
+                                   tags$p(style = "text-align:justify;font-si20pt",
+                                          strong("2) LICENCIAMENTO: os veículos automotores estão sujeitos a licenciamento anual, comprovado mediante Certificado de Registro e Licenciamento de Veículo (CRLV), documento de Porte obrigatório e, é expedito pelos  Departamento de Trânsito ou suas Circunscrições Regionais de Trânsito (CIRETRAN).")),
+                                   tags$br(),   
+                                   tags$p(style = "text-align:justify;font-si20pt",
+                                          strong("2) TRANSFERÊNCIA: a transferência de propriedade do veículo ou qualquer alteração de suas características, bem como mudança de domocílio do seu proprietário, devem ser anotadas no registro inicial, sendo expedido novo Certificado de Registro de Veículo (CRV). A comunicação de mudança de endereço deverá ser feita no prazo de 30 dias, ao órgão executivo de trânsito."))
+                                   
+                            )
+                          )
+                 ),    
+                tabPanel("Registro da Frota",
+                         icon = icon("calendar"),
+                         fluidRow(
+                           column(width = 4,
+                                  tags$br(),
+                                  tags$p(style = "text-align:justify;font-si20pt",
+                                         strong("Este item relaciona a Situação com relação ao Registro do Veículo, definidos no Anexo I, do Regulamento do Código de Trânsito Brasileiro e
+Convenção de Trânsito Viário de Viena, bem como da Organização Mundial de Saúde.")),
+                                  tags$br(),
+                                  tags$p(style = "text-align:justify;font-si20pt",
+                                         strong("1) EM CIRCULAÇÃO:  veículo que está regularmente cadastrado no Estado do Pará;")),
+                                  tags$br(),
+                                  tags$p(style = "text-align:justify;font-si20pt",
+                                         strong("2) REGISTRO DESATIVADO: - veículo com placa antiga, sem movimentação no cadastro desde 2003")),
+                                  tags$br(),
+                                  tags$p(style = "text-align:justify;font-si20pt",
+                                         strong("3) BAIXADO: veículo tornado sucata ou definitivamente desmontado, cuja condição consta assim assentada no cadastro")),
+                                  tags$br(),
+                                  tags$p(style = "text-align:justify;font-si20pt",
+                                         strong("4) TRANSFERIDO P/ OUTRA UF: veículo que foi transferido para outro Estado e cujo registro passa a ser responsabilidade
+do mesmo"))
+                           )
+                         )
+                ),
+ tabPanel("Tipos de Veículos", 
+          icon = icon("car"),
+          fluidRow(
+            column(width = 4,
+                   tags$br(),
+                   tags$p(style = "text-align:justify;font-si20pt",
+                          strong("Este item relaciona os tipos de veículos definidos no Anexo I, do Regulamento do Código de Trânsito Brasileiro e
+Convenção de Trânsito Viário de Viena, bem como da Organização Mundial de Saúde.")),
+                   tags$br(),
+                   tags$p(style = "text-align:justify;font-si20pt",
+                          strong("1) AUTOMÓVEL: Veículo destinado ao transporte de passageiros, com capacidade para até oito pessoas, mais o condutor;")),
+                   tags$br(),
+                   tags$p(style = "text-align:justify;font-si20pt",
+                          strong("2) BICICLETA: veículo de propulsão humana, dotado de duas rodas, cujo condutor dirige em posição montada, não sendo similar à motocicleta, motoneta e ciclomotor;")),
+                   tags$br(),
+                   tags$p(style = "text-align:justify;font-si20pt",
+                          strong("3) CAMINHÃO: Veículo automotor destinado ao transporte de carga com peso bruto total ou superior a 3.500kg, podendo transitar ou arrastar outro veículo, respeitad a capacidade máxima de tração;")),
+                   tags$br(),
+                   tags$p(style = "text-align:justify;font-si20pt",
+                          strong("4) CAMINHONETE: Veículo destinado ao transporte de carga com peso bruto total de até três mil e quinhentos quilogramas;")),
+                   tags$br(),
+                   tags$p(style = "text-align:justify;font-si20pt",
+                          strong("5) CAMIONETA: Veículo misto destinado ao transporte de passageiros e carga no mesmo compartimento;")),
+                   tags$br(),
+                   tags$p(style = "text-align:justify;font-si20pt",
+                          strong("6) CICLOMOTOR: Veículo de duas ou três rodas, provido de um motor de combustão interna, cuja cilindrada não exceda a cinquenta centímetros cúbicos (3,05 polegadas cúbicas) e cuja velocidade máxima de fabricação não exceda a cinquenta quilômetros por hora;")),
+            ),
+            column(width = 4,
+                   tags$br(),
+                   tags$br(),
+                   tags$br(),
+                   tags$br(),
+                   tags$br(),
+                   tags$p(style = "text-align:justify;font-si20pt",
+                          strong("7) MICRO-ÔNIBUS: veículo automotor de transporte coletivo com capacidade oara até 20 passageiros. As vans se enquadram nessa categoria de veículos;")),
+                   tags$br(),
+                   tags$p(style = "text-align:justify;font-si20pt",
+                          strong("8) MOTOCICLETA: veículo automotor de duas rodas, dirigido por condutor em posição montada;")),
+                   tags$br(),
+                   tags$p(style = "text-align:justify;font-si20pt",
+                          strong("9) MOTONETA: veículo automotor de duas rodas, dirigido por condutor em posição sentada;")),
+                   tags$br(),
+                   tags$p(style = "text-align:justify;font-si20pt",
+                          strong("10) TRICICLO: veículo automotor de três rodas com ou sem cabine, dirigido por condutor em posição sentada ou montada, que não possui as casracterísticas de ciclomotor;")),
+                   tags$br(),
+                   tags$p(style = "text-align:justify;font-si20pt",
+                          strong("11) QUADRICICLO: veículo automotor de 4 rodas, com ou sem cabine, com massa de ordem de marcha superior a 450kg, para o transporte de passageiros, ou não superior a 600kg para o transporte de cargas;")),
+                   tags$br(),
+                   tags$p(style = "text-align:justify;font-si20pt",
+                          strong("12) ÔNIBUS: veículo automotor de transporte coletivo com capacidade para mais de 20 passageiros, ainda que, em virtude de adaptações com vista à maior comodidade destes, transporte número menor;")),
+                                  tags$br(),
+                                  tags$p(style = "text-align:justify;font-si20pt",
+                                         strong("13) VEÍCULO ESPECIAL: veículo de passageiro, de carga, de tração, de coleção ou misto que possui características diferenciadas para realização de função especial para a qual são necessários arranjos específicos de carroceria e/ou equipamento;"))
+                           )
+                         )
+                ),
  
-  
  
+ tabPanel("Espécie dos Veículos", 
+          icon = icon("car"),
+          fluidRow(
+            column(width = 4,
+                   tags$br(),
+                   tags$p(style = "text-align:justify;font-si20pt",
+                          strong("Este item relaciona as Espécies de veículos definidos no Anexo I, do Regulamento do Código de Trânsito Brasileiro e
+Convenção de Trânsito Viário de Viena, bem como da Organização Mundial de Saúde.")),
+                   tags$br(),
+                   tags$p(style = "text-align:justify;font-si20pt",
+                          strong("1) PASSAGEIRO: designa veículo destinado ao transporte de pessoas e suas bagagens;")),
+                   tags$br(),
+                   tags$p(style = "text-align:justify;font-si20pt",
+                          strong("2) CARGA: designa veículos destinado ao transporte de carga, podendo transportar dois passageiros, exclusive o
+condutor.;")),
+                   tags$br(),
+                   tags$p(style = "text-align:justify;font-si20pt",
+                          strong("3) MISTO: designa veículos automotores destinado ao transporte simultâneo de carga e passageiro;")),
+                   tags$br(),
+                   tags$p(style = "text-align:justify;font-si20pt",
+                          strong("4) CORRIDA/COMPETIÇÃO: designa veículos destinado ao uso esportivo de acordo com artigo 110 do CTB, somente poderão circular
+nas vias com autorização da autoridade de trânsito;"))
+                   
+            ),
+           column(
+             width = 4,
+             tags$br(),
+             tags$br(),
+             tags$br(),
+             tags$br(),
+             tags$br(),
+             tags$br(),
+             tags$p(style = "text-align:justify;font-si20pt",
+                    strong("5) TRAÇÃO: designa veículo automotor destinado a tracionar outro veículo;")),
+             tags$br(),
+             tags$p(style = "text-align:justify;font-si20pt",
+                    strong("6) ESPECIAL: designa veículos cujas características ou finalidade não permitem enquadrá-lo em uma das demais espécie;")),
+             tags$br(),
+             tags$p(style = "text-align:justify;font-si20pt",
+                    strong("7) COLEÇÃO: designa veículos que, mesmo tendo sido fabricados há mais de trinta anos, conservam suas características
+originais de fabricação e possui valor histórico próprio;"))
+           ) 
+          )
+ ),
+ tabPanel("Categoria de Veículos", 
+          icon = icon("car"),
+          fluidRow(
+            column(width = 4,
+                   tags$br(),
+                   tags$p(style = "text-align:justify;font-si20pt",
+                          strong("Este item relaciona as Categorias de veículos definidos no Anexo I, do Regulamento do Código de Trânsito Brasileiro e
+Convenção de Trânsito Viário de Viena, bem como da Organização Mundial de Saúde.")),
+                   tags$br(),
+                   tags$p(style = "text-align:justify;font-si20pt",
+                          strong("1) ALUGUEL: corresponde a veículos que serão usados comercialmente, para prestação de serviços a terceiros;")),
+                   tags$br(),
+                   tags$p(style = "text-align:justify;font-si20pt",
+                          strong("2) APRENDISAGEM: corresponde a veículos para ensino de direção pelos centros de formação de condutores;")),
+                   tags$br(),
+                   tags$p(style = "text-align:justify;font-si20pt",
+                          strong("3) CHEFE DE MISSÃO DIPLOMÁTICA: corresponde ao uso de veículos
+de uso de Chefes de Missão Diplomática e de Delegações Especiais;")),
+                   tags$br(),
+                   tags$p(style = "text-align:justify;font-si20pt",
+                          strong("4) CONSULARES DE CARREIRA: corresponde ao uso de veículos pertencentes a Repartições
+Consulares de Carreira e a agentes consulares de carreira;"))
+                   
+                  
+            ),
+            column(
+              width = 4,
+              tags$br(),
+              tags$br(),
+              tags$br(),
+              tags$br(),
+              tags$br(),
+              tags$br(),
+              tags$p(style = "text-align:justify;font-si20pt",
+                     strong("5) FABRICANTE: veículo em fase de desenvolvimento pelo fabricante;")),
+              tags$br(),
+              tags$p(style = "text-align:justify;font-si20pt",
+                     strong("6) OFICIAL: veículos de propriedade de órgãos públicos dos governos federal, estadual ou municipa;")),
+              tags$br(),
+              tags$p(style = "text-align:justify;font-si20pt",
+                     strong("7) PARTICULAR: veículos de propriedade de pessoas físicas ou jurídicas que não se enquadram nas demais categorias;"))
+            )
+          )
+ ),
+ tabPanel("Combustível dos Veículos", 
+          icon = icon("car"),
+          fluidRow(
+            column(width = 4,
+                   tags$br(),
+                   tags$p(style = "text-align:justify;font-si20pt",
+                          strong("Este item relaciona os Tipos de Combustível dos veículos definidos no Anexo I, do Regulamento do Código de Trânsito Brasileiro e Convenção de Trânsito Viário de Viena, bem como da Organização Mundial de Saúde.")),
+                   tags$br(),
+                   withMathJax(),
+                   tags$p(style = "text-align:justify;font-si20pt",
+                          strong("Àlcool ou Etanol: Entre os tipos de combustíveis mais notáveis o etanol, popurlarmente chamado de álcool, é uma substância química e sua produção ocorre principalmente pela fermentação de acúcares oriundos da cana-de-açúcar. È um biocombústível utilizado em motores de combustão interna com ignição por centelha. Esta modalidade subdividi-se na forma de etanol anidro como componente de mistura na formação da gasolina, ou etanol hidratado, comercializado em todo o páis como um combustível acabado. As especificações do etanol anidro e hidratado comercializado no país são estabelecidas pela Resolução ANP nº 907/2022.")),
+                   tags$br(),
+                   tags$p(style = "text-align:justify;font-si20pt",
+                          strong("Diesel: O chamado gasóleo ou popularmente de óleo diesel é um combustível derivado apartir do refino do petróleo bruto. O diesel rebeceu este nome em homenagem ao engenheiro alemão Rudolf Diesel. O diesel é um produto pouco inflamável, medianamente tóxico, pouco volátil, límpido, isento de material em suspensão.")),
+                   tags$br()
   
-  
+            ),
+            column(width = 4,
+                   tags$br(),
+                   tags$br(),
+                   tags$br(),
+                   tags$br(),
+                   tags$br(),
+                   tags$br(),
+                   tags$br(),
+                   #tags$br(),
+                   tags$p(style = "text-align:justify;font-si20pt",
+                          strong("Gasolina: É um combustível constituído basicamente por hidrocarbonetos derivado apartir do refino do petróleo bruto. No Brasil, a Agência Nacional do Petróleo especifica três tipos de gasolinas automotivas, tipo A, tipo B e tipo C, sendo a gasolina do tipo B de uso exclusivo das Forças Armadas.")),
+                   tags$br(),
+                   tags$p(style = "text-align:justify;font-si20pt",
+                          strong("Àlcool/Gasolina: O chamado veículo flex ou veículo de combustível duplo está equipado com um motor de combustão interna a quatro tempos que tem a capacidade de ser reabastecido e funcionar com mais de um tipo de combustível, misturados no mesmo tanque e queimados na câmara de conbustão simultaneamente."))
+            )
+          )
+ ),                
+ tabPanel("CONVENÇÕES", 
+          icon = icon("landmark"),
+          fluidRow(
+            column(width = 4,
+                   tags$br(),
+                   tags$p(style = "text-align:justify;font-si20pt",
+                          strong("O Sistema segue a orientação das Normas da ABNT - NBR 10697.")),
+                   tags$br(),
+                   tags$p(style = "text-align:justify;font-si20pt",
+                          strong("(-): Dado numérico igual a zero não resultante de arredondamento;")),
+                   tags$br(),
+                   tags$p(style = "text-align:justify;font-si20pt",
+                          strong("NI: Referem-se aos acidentes, vítimas ou atributos não informados.")),
+                   tags$br(),
+                   tags$p(style = "text-align:justify;font-si20pt",
+                          strong("(…): Dado numérico não disponível."))
+            )
+          )
+ )              
+ )
+         ),
   
         tabItem(tabName = "visao_geral",fluidPage(total_ui("geral"))),
         tabItem(tabName = "carac_loc",fluidPage(loc_ui("loc"))),
@@ -465,21 +710,95 @@ Fiscalização em nível Estadual."
           )        ))
         )
     ),
+#===============================================================================
+    controlbar = dashboardControlbar(
+      id = "controlebar",
+      #skin = "light",
+      #pinned = TRUE,
+      disable = FALSE,
+      width = 250,
+      collapsed = TRUE,
+      overlay = FALSE, 
+      controlbarMenu(
+        id = "controlebarmenu",
+        controlbarItem(
+          title = "Instagram",
+          tags$li(class = "dropdown",
+                          a(href = "https://www.instagram.com/detranpa_",
+                          class = "fa fa-instagram",
+                          target = "_blank"
+                          )
+                  )
+          
+        ),
+        controlbarItem(
+          title = "Facebook",
+          tags$li(class = "dropdown",
+                          a(href = "https://www.facebook.com/detranPARA",
+                            class = "fa fa-facebook",
+                            target = "_blank"
+                          ))
+        ),
+        controlbarItem(
+          title = "Twitter",
+          tags$li(class = "dropdown",
+                          a(href = "https://twitter.com/DETRAN_PA",
+                            class = "fa fa-twitter",
+                            target = "_blank"
+                          ))
+        ),
+        controlbarItem(
+          title = "Suporte",
+          tags$li(
+            class="dropdown",
+            tags$a(href="https://github.com/MarioDhiego",
+                   icon("github"), "Suporte", target = "_blank"))
+        )
+        ),
+      skin = "ligth",
+      pinned = FALSE
+    ),
     footer = dashboardFooter(
-      left = tags$b("Detran-PA"), 
-      right = tags$b("Belém-PA, 2024 v.1")
+      left = tags$b("DETRAN-PA"), 
+      right = tags$b("BELÉM-PA, 2024 v.1")
     ),
     title = "Frota Registrada"
   ),
+
+
+#===============================================================================
   server = function(input, output,session) {
     
+    detran_location <- data.frame(
+      lat = -1.37843,
+      lon = -48.44034
+    )
     
+    output$mapa <- renderLeaflet({
+    df <- read.csv(textConnection(
+      "Nome, lat, lon,
+      DETRAN-PA, -1.37843, -48.44034" ))
+    leaflet::leaflet(df) %>%
+      addTiles() %>%
+      addMarkers(~lon, ~lat, label= ~htmlEscape(Nome),
+                 labelOptions = labelOptions(noHide = FALSE,
+                                textsize = "15px")) %>%
+      addProviderTiles(providers$OpenSeaMap) %>%
+      setView(lng = detran_location$lon,
+              lat = detran_location$lat,
+              zoom = 15)
+    })
+    
+#===============================================================================
     total_Server("geral")
     loc_Server("loc")
     muni_Server("muni")
     tipo_Server("tipo")
     frotapa_Server("frotapa")
     frotamuni_Server("frotamuni")
+    
+    
+    
     
   }
 )

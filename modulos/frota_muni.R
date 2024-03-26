@@ -58,8 +58,8 @@ frotamuni_ui <- function(id) {
           div(
             style = "display: flex; justify-content: space-between;",
             div(
-              tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/Detran-PA"),
-              tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/Detran-PA")
+              tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/DETRAN-PA"),
+              tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
             ),
             div(
               style = "display: flex; justify-content: center; align-items: center;",
@@ -86,8 +86,8 @@ frotamuni_ui <- function(id) {
           div(
             style = "display: flex; justify-content: space-between;",
             div(
-              tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/Detran-PA"),
-              tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/Detran-PA")
+              tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/DETRAN-PA"),
+              tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
             ),
             div(
               style = "display: flex; justify-content: center; align-items: center;",
@@ -121,8 +121,8 @@ frotamuni_ui <- function(id) {
           div(
             style = "display: flex; justify-content: space-between;",
             div(
-              tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/Detran-PA"),
-              tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/Detran-PA")
+              tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/DETRAN-PA"),
+              tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
             ),
             div(
               style = "display: flex; justify-content: center; align-items: center;",

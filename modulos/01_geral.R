@@ -78,7 +78,7 @@ total_ui <- function(id) {
             leafletOutput(NS(id,"map")),
             type = 8,
             color = "#3C8DBD",
-            size = 0.5
+            size = 0.8
           ),
           footer = list(tags$h6(
             tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/DETRAN-PA"
@@ -98,14 +98,14 @@ total_ui <- function(id) {
             reactableOutput(NS(id,"tab"),height = "400px"),
             type = 8,
             color = "#3C8DBD",
-            size = 0.5
+            size = 0.8
           ),
           footer = 
             list(
               div(
                 style = "display: flex; justify-content: space-between;",
                 div(
-                  tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAN/DTI/DETRAN-PA"),
+                  tags$h6(tags$b("Fonte:", style = 'font-family: sans-serif;'), "RENAVAM/DTI/DETRAN-PA"),
                   tags$h6(tags$b("Elaboração:"), "CNP/GAETRA/DETRAN-PA")
                 ),
                 div(
@@ -136,7 +136,7 @@ total_ui <- function(id) {
                 echarts4rOutput(NS(id, "grafbar"), height = "600px"),
                 type = 8,
                 color = "blue",
-                size = 0.5
+                size = 0.8
               ),
               footer = 
             list(
@@ -254,7 +254,7 @@ total_Server <- function(id) {
         fill = TRUE,
         gradient = TRUE,
         iconElevation = 2,
-        icon = icon("map")
+        icon = icon("car")
       )
     })
     #Maximo RI
@@ -275,7 +275,7 @@ total_Server <- function(id) {
         gradient = TRUE,
         iconElevation = 2,
         color = "success",
-        icon = icon("car")
+        icon = icon("globe")
       )
     })
     
@@ -772,7 +772,7 @@ total_Server <- function(id) {
             name = input$localc1,
             legend = T,
             symbol = "roundRect",
-            symbolSize = 6,
+            symbolSize = 8,
             legendHoverLink = TRUE,
             itemStyle = list(barBorderRadius = 5)
           ) %>%
@@ -834,8 +834,8 @@ total_Server <- function(id) {
             )
           ) %>%
           e_locale("pt-Br") %>%
-          e_datazoom(toolbox = FALSE, fillerColor = "#E5F5F9") %>%
-          e_grid(show = TRUE)%>%
+          #e_datazoom(toolbox = FALSE, fillerColor = "#E5F5F9") %>%
+          e_grid(show = TRUE) %>%
           e_tooltip(trigger = "item")%>%
           e_animation(duration = 5000) %>%
           e_toolbox_feature(feature = "saveAsImage") %>%
